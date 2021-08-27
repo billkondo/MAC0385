@@ -1,6 +1,6 @@
 import unittest
 
-from node import Node
+from persistent_deque.node import Node
 
 class NodeTest(unittest.TestCase):
   def test_constructor(self):
