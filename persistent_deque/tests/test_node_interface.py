@@ -1,9 +1,19 @@
+from typing import Type
 import unittest
 
 from persistent_deque.node import Node
-from persistent_deque.node.interface import Depth, AddLeaf
+from persistent_deque.node.interface import Depth, AddLeaf \
+  ,LevelAncestor 
 
 class NodeInterfaceTest(unittest.TestCase):
+  def setUp(self):
+    self.root = AddLeaf(0, None)
+    self.node1 = AddLeaf(1, self.root)
+    self.node2 = AddLeaf(2, self.node1)
+    self.node3 = AddLeaf(3, self.node2)
+    self.node4 = AddLeaf(4, self.node3)
+    self.node5 = AddLeaf(5, self.node4)
+
   def test_depth(self):
     self.assertEqual(Depth(Node(4, None, 10)), 10)
     self.assertEqual(Depth(None), -1)
@@ -27,16 +37,23 @@ class NodeInterfaceTest(unittest.TestCase):
     self.assertEqual(node.jump, None)
 
   def test_jump(self):
-    root = AddLeaf(0, None)
-    node1 = AddLeaf(1, root)
-    node2 = AddLeaf(2, node1)
-    node3 = AddLeaf(3, node2)
-    node4 = AddLeaf(4, node3)
-    node5 = AddLeaf(5, node4)
+    self.assertEqual(self.root.jump, None)
+    self.assertEqual(self.node1.jump, self.root)
+    self.assertEqual(self.node2.jump, None)
+    self.assertEqual(self.node3.jump, self.node2)
+    self.assertEqual(self.node4.jump, self.node3)
+    self.assertEqual(self.node5.jump, self.node2)
 
-    self.assertEqual(root.jump, None)
-    self.assertEqual(node1.jump, root)
-    self.assertEqual(node2.jump, None)
-    self.assertEqual(node3.jump, node2)
-    self.assertEqual(node4.jump, node3)
-    self.assertEqual(node5.jump, node2)
+  def test_level_ancestor(self):
+    self.assertEqual(LevelAncestor(0, self.root), self.root)
+    self.assertEqual(LevelAncestor(4, self.node5), self.node1)
+    self.assertEqual(LevelAncestor(3, self.node4), self.node1)
+    self.assertEqual(LevelAncestor(2, self.node2), self.root)
+    self.assertEqual(LevelAncestor(5, self.node5), self.root)
+    self.assertEqual(LevelAncestor(3, self.node5), self.node2)
+
+  def test_level_ancestor_raises(self):
+    self.assertRaises(TypeError, lambda: LevelAncestor('invalid', None))
+    self.assertRaises(ValueError, lambda: LevelAncestor(0, None))
+    self.assertRaises(TypeError, lambda: LevelAncestor(0, 'invalid'))
+    self.assertRaises(ValueError, lambda: LevelAncestor(10, self.node5))

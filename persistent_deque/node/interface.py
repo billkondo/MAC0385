@@ -23,3 +23,26 @@ def Jump(parent: Node) -> Node:
 
 def AddLeaf(value : int, parent: Node) -> Node:
   return Node(value, parent, Depth(parent) + 1, Jump(parent))
+
+def LevelAncestor(k : int, node: Node) -> Node:
+  if type(k) != int:
+    raise TypeError('k is not an integer')
+
+  if node == None:
+    raise ValueError('node is None')
+
+  if type(node) != Node:
+    raise TypeError('node is not a Node')
+
+  if k > Depth(node):
+    raise ValueError('k is greater than node depth')
+
+  target_depth = Depth(node) - k
+
+  while Depth(node) != target_depth:
+    if Depth(node.jump) >= target_depth:
+      node = node.jump
+    else:
+      node = node.parent
+  
+  return node
