@@ -1,9 +1,9 @@
 import unittest
 
 from persistent_deque.node import Node
-from persistent_deque.utils import Depth
+from persistent_deque.node.interface import Depth
 
-class UtilsTest(unittest.TestCase):
+class NodeInterfaceTest(unittest.TestCase):
   def test_depth(self):
     self.assertEqual(Depth(Node(4, None, 10)), 10)
 
