@@ -1,4 +1,4 @@
-from persistent_deque.node import Node, AddLeaf
+from persistent_deque.node import AddLeaf
 from persistent_deque.deque import Deque
 
 def NewDeque() -> Deque:
@@ -12,7 +12,7 @@ def Back(deque : Deque):
 
 def PushFront(deque: Deque, value : int) -> Deque:
   if deque.first == None:
-    root = Node(value, None, 0)
+    root = AddLeaf(value, None)
     return Deque(root, root)
   else:
     return Deque(AddLeaf(value, deque.first), deque.last)
