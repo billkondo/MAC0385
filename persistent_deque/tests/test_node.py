@@ -15,8 +15,12 @@ class NodeTest(unittest.TestCase):
     self.assertEqual(node.parent, parent)
     self.assertEqual(node.depth, 2)
 
+    node_with_jump = Node(7, parent, 9, node)
+    self.assertEqual(node_with_jump.jump, node)
+
   def test_constructor_raises(self):
     self.assertRaises(TypeError, lambda: Node("invalid", None, 0))
     self.assertRaises(TypeError, lambda: Node(5, 4, 0))
     self.assertRaises(TypeError, lambda: Node(2, None, "invalid"))
     self.assertRaises(ValueError, lambda: Node(2, None, -5))
+    self.assertRaises(TypeError, lambda: Node(4, None, 10, "invalid"))
