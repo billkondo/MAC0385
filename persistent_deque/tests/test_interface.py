@@ -2,7 +2,7 @@ import unittest
 
 from persistent_deque.node import Node
 from persistent_deque.deque import Deque
-from persistent_deque.interface import NewDeque, Front, Back, PushFront
+from persistent_deque.interface import NewDeque, Front, Back, PushFront, Swap
 
 class InterfaceTest(unittest.TestCase):
   def setUp(self):
@@ -40,3 +40,9 @@ class InterfaceTest(unittest.TestCase):
     self.assertEqual(new_deque.first.value, 1)
     self.assertEqual(new_deque.first.parent, None)
     self.assertEqual(new_deque.first.depth, 0)
+
+  def test_swap(self):
+    deque_swap = Swap(self.deque)
+
+    self.assertEqual(deque_swap.first, self.node2)
+    self.assertEqual(deque_swap.last, self.node1)

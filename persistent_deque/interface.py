@@ -16,3 +16,6 @@ def PushFront(deque: Deque, value) -> Deque:
     return Deque(root, root)
   else:
     return Deque(Node(value, deque.first, deque.first.depth + 1), deque.last)
+
+def Swap(deque:Deque) -> Deque:
+  return Deque(deque.last, deque.first)
