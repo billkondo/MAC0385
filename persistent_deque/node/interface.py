@@ -10,5 +10,16 @@ def Depth(node: Node) -> int:
 
   return node.depth
 
+def Jump(parent: Node) -> Node:
+  if parent == None:
+    return None
+
+  if (parent.jump != None and 
+      Depth(parent) - Depth(parent.jump) ==
+      Depth(parent.jump) - Depth(parent.jump.jump)):  
+    return parent.jump.jump
+
+  return parent
+
 def AddLeaf(value : int, parent: Node) -> Node:
-  return Node(value, parent, Depth(parent) + 1)
+  return Node(value, parent, Depth(parent) + 1, Jump(parent))

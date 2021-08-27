@@ -25,3 +25,18 @@ class NodeInterfaceTest(unittest.TestCase):
     self.assertEqual(node.parent, None)
     self.assertEqual(node.depth, 0)
     self.assertEqual(node.jump, None)
+
+  def test_jump(self):
+    root = AddLeaf(0, None)
+    node1 = AddLeaf(1, root)
+    node2 = AddLeaf(2, node1)
+    node3 = AddLeaf(3, node2)
+    node4 = AddLeaf(4, node3)
+    node5 = AddLeaf(5, node4)
+
+    self.assertEqual(root.jump, None)
+    self.assertEqual(node1.jump, root)
+    self.assertEqual(node2.jump, None)
+    self.assertEqual(node3.jump, node2)
+    self.assertEqual(node4.jump, node3)
+    self.assertEqual(node5.jump, node2)
