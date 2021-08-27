@@ -15,3 +15,6 @@ def node_function_wrapper(function):
 @node_function_wrapper
 def Depth(node: Node):
   return node.depth
+
+def AddLeaf(value : int, parent: Node) -> Node:
+  return Node(value, parent, parent.depth + 1)
