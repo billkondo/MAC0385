@@ -3,7 +3,7 @@ import unittest
 from persistent_deque.node import Node
 from persistent_deque.deque import Deque
 from persistent_deque.interface import NewDeque, Front, Back, \
-  PushFront, Swap, PushBack
+  PushFront, Swap, PushBack, Kth
 
 class InterfaceTest(unittest.TestCase):
   def setUp(self):
@@ -66,3 +66,36 @@ class InterfaceTest(unittest.TestCase):
     self.assertEqual(new_deque.first.value, 1)
     self.assertEqual(new_deque.first.parent, None)
     self.assertEqual(new_deque.first.depth, 0)
+
+class PopInterfaceTest(unittest.TestCase):
+  def setUp(self):
+    self.root = NewDeque()
+    
+    self.deque1 = PushFront(self.root, 1)
+    self.node1 = self.deque1.first
+
+    self.deque2 = PushFront(self.deque1, 2)
+    self.node2 = self.deque2.first
+
+    self.deque3 = PushFront(self.deque2, 3)
+    self.node3 = self.deque3.first
+
+    self.deque4 = PushBack(self.deque3, 4)
+    self.node4 = self.deque4.last
+
+    self.deque5 = PushBack(self.deque4, 5)
+    self.node5 = self.deque5.last
+
+  def test_kth(self):
+    self.assertEqual(Kth(self.deque5, 0), self.node3)
+    self.assertEqual(Kth(self.deque5, 1), self.node2)
+    self.assertEqual(Kth(self.deque5, 2), self.node1)
+    self.assertEqual(Kth(self.deque5, 3), self.node4)
+    self.assertEqual(Kth(self.deque5, 4), self.node5)
+
+    self.assertEqual(Kth(self.deque1, 0), self.node1)
+    self.assertEqual(Kth(self.deque2, 1), self.node1)
+
+  def test_kth_raises(self):
+    self.assertRaises(ValueError, lambda: Kth(self.deque5, 5))
+    self.assertRaises(ValueError, lambda: Kth(self.deque4, 4))
