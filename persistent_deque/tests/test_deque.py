@@ -23,9 +23,9 @@ class DequeTest(unittest.TestCase):
     self.assertEqual(deque3.last, self.node1)
 
   def test_constructor_raises(self):
-    self.assertRaises(ValueError, lambda: Deque('invalid'))
-    self.assertRaises(ValueError, lambda: Deque(None, 4))
-    self.assertRaises(ValueError, lambda: Deque(self.node1, 'invalid'))
+    self.assertRaises(TypeError, lambda: Deque('invalid'))
+    self.assertRaises(TypeError, lambda: Deque(None, 4))
+    self.assertRaises(TypeError, lambda: Deque(self.node1, 'invalid'))
     self.assertRaises(ValueError, lambda: Deque(None, self.node1))
     self.assertRaises(ValueError, lambda: Deque(self.node1, None))
     
