@@ -19,3 +19,6 @@ def PushFront(deque: Deque, value) -> Deque:
 
 def Swap(deque:Deque) -> Deque:
   return Deque(deque.last, deque.first)
+
+def PushBack(deque: Deque, value) -> Deque:
+  return Swap(PushFront(Swap(deque), value))

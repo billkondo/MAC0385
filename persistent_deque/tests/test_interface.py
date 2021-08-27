@@ -2,7 +2,8 @@ import unittest
 
 from persistent_deque.node import Node
 from persistent_deque.deque import Deque
-from persistent_deque.interface import NewDeque, Front, Back, PushFront, Swap
+from persistent_deque.interface import NewDeque, Front, Back, \
+  PushFront, Swap, PushBack
 
 class InterfaceTest(unittest.TestCase):
   def setUp(self):
@@ -30,7 +31,7 @@ class InterfaceTest(unittest.TestCase):
 
     self.assertEqual(new_deque_first.value, 3)
     self.assertEqual(new_deque_first.parent, self.node1)
-    self.assertEqual(new_deque_first.depth, self.node1.depth + 1)
+    self.assertEqual(new_deque_first.depth, 1)
 
   def test_push_front_emtpy(self):
     new_deque = PushFront(NewDeque(), 1)
@@ -46,3 +47,22 @@ class InterfaceTest(unittest.TestCase):
 
     self.assertEqual(deque_swap.first, self.node2)
     self.assertEqual(deque_swap.last, self.node1)
+
+  def test_push_back(self):
+    new_deque = PushBack(self.deque, 3)
+    new_deque_last = new_deque.last
+
+    self.assertEqual(new_deque.first, self.node1)
+
+    self.assertEqual(new_deque_last.value, 3)
+    self.assertEqual(new_deque_last.parent, self.node2)
+    self.assertEqual(new_deque_last.depth, 1)
+
+  def test_push_back_empty(self):
+    new_deque = PushBack(NewDeque(), 1)
+
+    self.assertEqual(new_deque.first, new_deque.last)
+
+    self.assertEqual(new_deque.first.value, 1)
+    self.assertEqual(new_deque.first.parent, None)
+    self.assertEqual(new_deque.first.depth, 0)
