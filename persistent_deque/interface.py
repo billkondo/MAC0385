@@ -1,5 +1,5 @@
 from persistent_deque.node import AddLeaf, Depth\
-  , LevelAncestor, LowestCommonAncestor
+  , LevelAncestor, LowestCommonAncestor, Node
 from persistent_deque.deque import Deque
 
 def deque_validator(function):
@@ -40,7 +40,7 @@ def PushBack(deque: Deque, value) -> Deque:
   return Swap(PushFront(Swap(deque), value))
 
 @deque_validator
-def Kth(deque : Deque, k : int) -> Deque:
+def Kth(deque : Deque, k : int) -> Node:
   if k == None or type(k) != int:
     raise TypeError('k is not an integer')
 
@@ -64,3 +64,13 @@ def Kth(deque : Deque, k : int) -> Deque:
 
   second_half_length = Depth(v) - Depth(mid)
   return LevelAncestor(second_half_length - (k - first_half_length), v)
+
+@deque_validator
+def PopFront(deque : Deque) -> Deque:
+  if deque.first == None:
+    raise ValueError('deque is empty')
+
+  if deque.first == deque.last:
+    return NewDeque()
+
+  return Deque(Kth(deque, 1), deque.last)
