@@ -3,7 +3,7 @@ import unittest
 from persistent_deque.node import Node
 from persistent_deque.deque import Deque
 from persistent_deque.interface import NewDeque, Front, Back, \
-  PushFront, Swap, PushBack, Kth, PopFront
+  PushFront, Swap, PushBack, Kth, PopFront, PopBack
 
 class InterfaceTest(unittest.TestCase):
   def setUp(self):
@@ -137,3 +137,22 @@ class PopInterfaceTest(unittest.TestCase):
     self.assertRaises(TypeError, lambda: PopFront('invalid'))
 
     self.assertRaises(ValueError, lambda: PopFront(self.root))
+
+  def test_pop_back(self):
+    deque6 = PopBack(self.deque5)
+    self.assertEqual(deque6.first, self.node3)
+    self.assertEqual(deque6.last, self.node4)
+
+    deque7 = PopBack(self.deque3)
+    self.assertEqual(deque7.first, self.node3)
+    self.assertEqual(deque7.last, self.node2)
+
+    deque8 = PopBack(self.deque1)
+    self.assertEqual(deque8.first, None)
+    self.assertEqual(deque8.last, None)
+
+  def test_pop_back_raises(self):
+    self.assertRaises(TypeError, lambda: PopBack(None))
+    self.assertRaises(TypeError, lambda: PopBack('invalid'))
+
+    self.assertRaises(ValueError, lambda: PopBack(self.root))

@@ -74,3 +74,7 @@ def PopFront(deque : Deque) -> Deque:
     return NewDeque()
 
   return Deque(Kth(deque, 1), deque.last)
+
+@deque_validator
+def PopBack(deque : Deque) -> Deque:
+  return Swap(PopFront(Swap(deque)))
