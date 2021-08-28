@@ -40,7 +40,7 @@ def PushBack(deque: Deque, value: int) -> Deque:
   return Swap(PushFront(Swap(deque), value))
 
 @deque_validator
-def Kth(deque: Deque, k: int) -> Node:
+def _Kth(deque: Deque, k: int) -> Node:
   if k == None or type(k) != int:
     raise TypeError('k is not an integer')
 
@@ -66,6 +66,11 @@ def Kth(deque: Deque, k: int) -> Node:
   return LevelAncestor(second_half_length - (k - first_half_length), v)
 
 @deque_validator
+def Kth(deque: Deque, k: int) -> int:
+  kth = _Kth(deque, k)
+  return kth.value
+
+@deque_validator
 def PopFront(deque: Deque) -> Deque:
   if deque.first == None:
     raise ValueError('deque is empty')
@@ -73,7 +78,7 @@ def PopFront(deque: Deque) -> Deque:
   if deque.first == deque.last:
     return NewDeque()
 
-  return Deque(Kth(deque, 1), deque.last)
+  return Deque(_Kth(deque, 1), deque.last)
 
 @deque_validator
 def PopBack(deque: Deque) -> Deque:
