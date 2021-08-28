@@ -14,5 +14,5 @@ class Deque:
     if first != None and last == None:
       raise ValueError('first is not None but last is None')
 
-    self.first : Node or None = first
-    self.last : Node or None = last
+    self.first: Node or None = first
+    self.last: Node or None = last

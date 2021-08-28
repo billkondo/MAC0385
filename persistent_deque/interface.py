@@ -16,15 +16,15 @@ def NewDeque() -> Deque:
   return Deque(None, None)
 
 @deque_validator
-def Front(deque : Deque):
+def Front(deque: Deque):
   return deque.first.value
 
 @deque_validator
-def Back(deque : Deque):
+def Back(deque: Deque):
   return deque.last.value
 
 @deque_validator
-def PushFront(deque: Deque, value : int) -> Deque:
+def PushFront(deque: Deque, value: int) -> Deque:
   if deque.first == None:
     root = AddLeaf(value, None)
     return Deque(root, root)
@@ -32,15 +32,15 @@ def PushFront(deque: Deque, value : int) -> Deque:
     return Deque(AddLeaf(value, deque.first), deque.last)
 
 @deque_validator
-def Swap(deque:Deque) -> Deque:
+def Swap(deque: Deque) -> Deque:
   return Deque(deque.last, deque.first)
 
 @deque_validator
-def PushBack(deque: Deque, value) -> Deque:
+def PushBack(deque: Deque, value: int) -> Deque:
   return Swap(PushFront(Swap(deque), value))
 
 @deque_validator
-def Kth(deque : Deque, k : int) -> Node:
+def Kth(deque: Deque, k: int) -> Node:
   if k == None or type(k) != int:
     raise TypeError('k is not an integer')
 
@@ -66,7 +66,7 @@ def Kth(deque : Deque, k : int) -> Node:
   return LevelAncestor(second_half_length - (k - first_half_length), v)
 
 @deque_validator
-def PopFront(deque : Deque) -> Deque:
+def PopFront(deque: Deque) -> Deque:
   if deque.first == None:
     raise ValueError('deque is empty')
 
@@ -76,5 +76,5 @@ def PopFront(deque : Deque) -> Deque:
   return Deque(Kth(deque, 1), deque.last)
 
 @deque_validator
-def PopBack(deque : Deque) -> Deque:
+def PopBack(deque: Deque) -> Deque:
   return Swap(PopFront(Swap(deque)))

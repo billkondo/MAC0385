@@ -21,10 +21,10 @@ def Jump(parent: Node) -> Node:
 
   return parent
 
-def AddLeaf(value : int, parent: Node) -> Node:
+def AddLeaf(value: int, parent: Node) -> Node:
   return Node(value, parent, Depth(parent) + 1, Jump(parent))
 
-def LevelAncestor(k : int, node: Node) -> Node:
+def LevelAncestor(k: int, node: Node) -> Node:
   if type(k) != int:
     raise TypeError('k is not an integer')
 
@@ -44,7 +44,7 @@ def LevelAncestor(k : int, node: Node) -> Node:
   
   return node
 
-def LowestCommonAncestor(u : Node, v : Node) -> Node:
+def LowestCommonAncestor(u: Node, v: Node) -> Node:
   if u == None or type(u) != Node:
     raise TypeError('u is not a Node')
 

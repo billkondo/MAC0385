@@ -16,6 +16,6 @@ class Node:
       raise TypeError('jump is not None neither a Node')
 
     self.value = value
-    self.parent : Node or None = parent
-    self.depth : int = depth
-    self.jump : Node or Node = jump
+    self.parent: Node or None = parent
+    self.depth: int = depth
+    self.jump: Node or Node = jump
