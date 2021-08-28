@@ -78,3 +78,16 @@ def PopFront(deque: Deque) -> Deque:
 @deque_validator
 def PopBack(deque: Deque) -> Deque:
   return Swap(PopFront(Swap(deque)))
+
+@deque_validator
+def Print(deque: Deque) -> str:
+  deque_str = ""
+
+  while deque.first != None:
+    if len(deque_str) != 0:
+      deque_str += " "
+    
+    deque_str += str(deque.first.value)
+    deque = PopFront(deque)
+
+  return deque_str

@@ -3,7 +3,7 @@ import unittest
 from persistent_deque.node import Node
 from persistent_deque.deque import Deque
 from persistent_deque.interface import NewDeque, Front, Back, \
-  PushFront, Swap, PushBack, Kth, PopFront, PopBack
+  PushFront, Swap, PushBack, Kth, PopFront, PopBack, Print
 
 class InterfaceTest(unittest.TestCase):
   def setUp(self):
@@ -156,3 +156,31 @@ class PopInterfaceTest(unittest.TestCase):
     self.assertRaises(TypeError, lambda: PopBack('invalid'))
 
     self.assertRaises(ValueError, lambda: PopBack(self.root))
+
+class PrintInterfaceTest(unittest.TestCase):
+  def setUp(self):
+    self.root = NewDeque()
+    self.deque1 = PushFront(self.root, 1)
+    self.deque2 = PushFront(self.deque1, 2)
+    self.deque3 = PushFront(self.deque2, 3)
+    self.deque4 = PushBack(self.deque3, 4)
+    self.deque5 = PushBack(self.deque4, 5)
+    self.deque6 = PopFront(self.deque5)
+    self.deque7 = PopFront(self.deque6)
+    self.deque8 = PushFront(self.deque7, 6)
+    self.deque9 = PopBack(self.deque8)
+    self.deque10 = PushBack(self.deque9, 7)
+
+  def test_print(self):
+    self.assertEqual(Print(self.root), "")
+    self.assertEqual(Print(self.deque8), "6 1 4 5")
+    self.assertEqual(Print(self.deque3), "3 2 1")
+    self.assertEqual(Print(self.deque5), "3 2 1 4 5")
+    self.assertEqual(Print(self.deque1), "1")
+    self.assertEqual(Print(self.deque10), "6 1 4 7")
+    self.assertEqual(Print(self.deque7), "1 4 5")
+
+  def test_print_raises(self):
+    self.assertRaises(TypeError, lambda: Print(None))
+    self.assertRaises(TypeError, lambda: Print('invalid'))
+
