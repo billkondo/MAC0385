@@ -4,3 +4,5 @@ class Node:
       raise ValueError('value is empty')
 
     self.value = value
+    self.left: Node = None
+    self.right: Node = None
