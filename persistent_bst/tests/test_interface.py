@@ -1,10 +1,13 @@
 import unittest
 
 from persistent_bst.bst import BST
-from persistent_bst.interface import NewBST, CopyBST, Insert
+from persistent_bst.interface import NewBST, CopyBST, Insert, Search
 from persistent_bst.node.node import Node
 
 class InterfaceTest(unittest.TestCase):
+  def setUp(self):
+    self.bst = Insert(Insert(Insert(Insert(NewBST(), 2), 1), 4), 3)
+
   def test_new_bst(self):
     bst = NewBST()
     self.assertEqual(bst.root, None)
@@ -35,3 +38,15 @@ class InterfaceTest(unittest.TestCase):
     bst_3 = Insert(bst_2, 5)
     self.assertEqual(bst_3.root.left.value, 5)
     self.assertNotEqual(bst_2.root, bst_3.root)
+
+  def test_search(self):
+    self.assertRaises(TypeError, lambda: Search('invalid', 5))
+    self.assertRaises(ValueError, lambda: Search(None, 5))
+
+    self.assertTrue(Search(self.bst, 1))
+    self.assertTrue(Search(self.bst, 2))
+    self.assertTrue(Search(self.bst, 3))
+    self.assertTrue(Search(self.bst, 4))
+
+    self.assertFalse(Search(self.bst, 0))
+    self.assertFalse(Search(self.bst, 5))
