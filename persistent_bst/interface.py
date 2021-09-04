@@ -2,7 +2,7 @@ from typing import Any
 
 from persistent_bst.bst import BST
 from persistent_bst.node.interface import CopyNode, DeleteNode, InsertNode, \
-  SearchNode, MinNode
+  SearchNode, MinNode, PrintNode
 
 def NewBST() -> BST:
   return BST()
@@ -64,3 +64,6 @@ def Min(b: BST) -> Any:
     raise ValueError('b is empty')
 
   return MinNode(b.root).value
+
+def Print(b: BST) -> str:
+  return PrintNode(b.root)

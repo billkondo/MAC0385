@@ -2,7 +2,7 @@ import unittest
 
 from persistent_bst.bst import BST
 from persistent_bst.interface import NewBST, CopyBST, Insert, Search, \
-  Delete, Min, Empty
+  Delete, Min, Empty, Print
 from persistent_bst.node.node import Node
 
 class InterfaceTest(unittest.TestCase):
@@ -75,3 +75,6 @@ class InterfaceTest(unittest.TestCase):
     self.assertRaises(ValueError, lambda: Min(NewBST()))
 
     self.assertEqual(Min(self.bst),1)
+  
+  def test_print(self):
+    self.assertEqual(Print(self.bst), "2 1 4 3")

@@ -2,9 +2,12 @@ import unittest
 
 from persistent_bst.node.node import Node
 from persistent_bst.node.interface import CopyNode, InsertNode, MinNode, \
-  SearchNode, DeleteNode
+  SearchNode, DeleteNode, PrintNode
 
 class NodeInterfaceTest(unittest.TestCase):
+  def setUp(self):
+    self.root = InsertNode(InsertNode(InsertNode(InsertNode(None,2),1),4),3)
+
   def test_copy_node(self):
     self.assertRaises(TypeError, lambda: CopyNode('invalid'))
 
@@ -62,13 +65,14 @@ class NodeInterfaceTest(unittest.TestCase):
     self.assertRaises(ValueError, lambda: DeleteNode(None, 5))
     self.assertRaises(TypeError, lambda: DeleteNode('invalid', 5))
     self.assertRaises(ValueError, lambda: DeleteNode(Node(5), None))
-
-    root = InsertNode(InsertNode(InsertNode(InsertNode(None,2),1),4),3)
     
-    root1 = DeleteNode(root, 2)
+    root1 = DeleteNode(self.root, 2)
     self.assertEqual(root1.value, 3)
     self.assertEqual(root1.right.value, 4)
     self.assertEqual(root1.left.value, 1)
-    self.assertEqual(root1.left, root.left)
-    self.assertNotEqual(root1.right, root.right)
+    self.assertEqual(root1.left, self.root.left)
+    self.assertNotEqual(root1.right, self.root.right)
     self.assertFalse(SearchNode(root1, 2))
+
+  def test_print_node(self):
+    self.assertEqual(PrintNode(self.root), "2 1 4 3")

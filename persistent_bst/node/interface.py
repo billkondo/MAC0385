@@ -84,3 +84,21 @@ def DeleteNode(node: Node, value) -> Node:
     node_copy.right = DeleteNode(node.right, value)
 
   return node_copy
+
+def PrintNode(node: Node) -> str:
+  if node == None:
+    return ""
+
+  def print_in_order_traversal(u: Node, values):
+    if u == None:
+      return
+
+    values.append(str(u.value))
+
+    print_in_order_traversal(u.left, values)
+    print_in_order_traversal(u.right, values)
+      
+  values = []
+  print_in_order_traversal(node, values)
+
+  return ' '.join(values)
