@@ -1,5 +1,6 @@
 from persistent_bst.bst import BST
-from persistent_bst.node.interface import CopyNode, InsertNode, SearchNode
+from persistent_bst.node.interface import CopyNode, DeleteNode, InsertNode, \
+  SearchNode
 
 def NewBST() -> BST:
   return BST()
@@ -28,3 +29,15 @@ def Search(b: BST, value) -> bool:
     raise TypeError('b is not a BST')
 
   return SearchNode(b.root, value)
+
+def Delete(b: BST, value) -> BST:
+  if b == None:
+    raise ValueError('b is None')
+
+  if type(b) != BST:
+    raise TypeError('b is not a BST')
+
+  if not SearchNode(b.root, value):
+    raise RuntimeError('value is not in b')
+
+  return BST(DeleteNode(b.root, value))

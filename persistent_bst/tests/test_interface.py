@@ -1,7 +1,8 @@
 import unittest
 
 from persistent_bst.bst import BST
-from persistent_bst.interface import NewBST, CopyBST, Insert, Search
+from persistent_bst.interface import NewBST, CopyBST, Insert, Search, \
+  Delete
 from persistent_bst.node.node import Node
 
 class InterfaceTest(unittest.TestCase):
@@ -50,3 +51,13 @@ class InterfaceTest(unittest.TestCase):
 
     self.assertFalse(Search(self.bst, 0))
     self.assertFalse(Search(self.bst, 5))
+
+  def test_delete(self):
+    self.assertRaises(TypeError, lambda: Delete('invalid', 5))
+    self.assertRaises(ValueError, lambda: Delete(None, 5))
+    self.assertRaises(RuntimeError, lambda: Delete(self.bst, 5))
+
+    bst = Delete(self.bst, 2)
+
+    self.assertEqual(bst.root.value, 3)
+    self.assertFalse(Search(bst, 2))
