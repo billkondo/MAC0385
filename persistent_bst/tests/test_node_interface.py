@@ -1,7 +1,7 @@
 import unittest
 
 from persistent_bst.node.node import Node
-from persistent_bst.node.interface import CopyNode, InsertNode
+from persistent_bst.node.interface import CopyNode, InsertNode, MinNode
 
 class NodeInterfaceTest(unittest.TestCase):
   def test_copy_node(self):
@@ -33,3 +33,13 @@ class NodeInterfaceTest(unittest.TestCase):
     root_left = InsertNode(root, 5)
     self.assertEqual(root_left.left.value, 5)
     self.assertNotEqual(root, root_left)
+
+  def test_min_node(self):
+    self.assertRaises(ValueError, lambda: MinNode(None))
+    self.assertRaises(TypeError, lambda: MinNode('invalid'))
+
+    root1 = InsertNode(InsertNode(None, 5), 10)
+    self.assertEqual(MinNode(root1).value, 5)
+
+    root2 = InsertNode(InsertNode(None, 20), 10)
+    self.assertEqual(MinNode(root2).value, 10)

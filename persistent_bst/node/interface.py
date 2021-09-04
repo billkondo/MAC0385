@@ -28,3 +28,15 @@ def InsertNode(node: Node, value):
     node_copy.right = InsertNode(node.right, value)
 
   return node_copy
+
+def MinNode(node: Node) -> Node:
+  if node == None:
+    raise ValueError('node is None')
+
+  if type(node) != Node:
+    raise TypeError('node is not a Node')
+
+  if node.left != None:
+    return MinNode(node.left)
+
+  return node
