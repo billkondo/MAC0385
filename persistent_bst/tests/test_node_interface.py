@@ -7,6 +7,8 @@ from persistent_bst.node.interface import CopyNode, InsertNode, MinNode, \
 class NodeInterfaceTest(unittest.TestCase):
   def setUp(self):
     self.root = InsertNode(InsertNode(InsertNode(InsertNode(None,2),1),4),3)
+    self.left_chain = InsertNode(InsertNode(InsertNode(None, 3), 2), 1)
+    self.right_chain = InsertNode(InsertNode(InsertNode(None, 4), 5), 6)
 
   def test_copy_node(self):
     self.assertRaises(TypeError, lambda: CopyNode('invalid'))
@@ -73,6 +75,14 @@ class NodeInterfaceTest(unittest.TestCase):
     self.assertEqual(root1.left, self.root.left)
     self.assertNotEqual(root1.right, self.root.right)
     self.assertFalse(SearchNode(root1, 2))
+
+    root2 = DeleteNode(self.left_chain, 3)
+    self.assertEqual(root2.value, 2)
+    self.assertEqual(root2.left.value, 1)
+
+    root3 = DeleteNode(self.right_chain, 4)
+    self.assertEqual(root3.value, 5)
+    self.assertEqual(root3.right.value, 6)
 
   def test_print_node(self):
     self.assertEqual(PrintNode(self.root), "2 1 4 3")

@@ -69,13 +69,20 @@ def DeleteNode(node: Node, value) -> Node:
   if value == None:
     raise ValueError('value is None')
 
-  node_copy = CopyNode(node)
+  if value == node.value:
+    if node.right != None:
+      min_node = MinNode(node.right)
+      node_copy = CopyNode(min_node)
+      node_copy.right = DeleteNode(node.right, min_node.value)
+      node_copy.left = node.left
+      return node_copy
 
-  if value == node.value and node.right != None:
-    min_node = MinNode(node.right)
-    node_copy.right = DeleteNode(node.right, min_node.value)
-    node_copy.value =  min_node.value
-    return node_copy
+    if node.left != None:
+      return node.left
+
+    return None
+
+  node_copy = CopyNode(node)
 
   if value < node.value:
     node_copy.left = DeleteNode(node.left, value)
