@@ -40,3 +40,47 @@ def MinNode(node: Node) -> Node:
     return MinNode(node.left)
 
   return node
+
+def SearchNode(node: Node, value) -> bool:
+  if node != None and type(node) != Node:
+    raise TypeError('node is not a Node')
+
+  if value == None:
+    raise ValueError('value is None')
+
+  if node == None:
+    return False
+
+  if node.value == value:
+    return True
+
+  if value < node.value:
+    return SearchNode(node.left, value)
+
+  return SearchNode(node.right, value)
+
+def DeleteNode(node: Node, value) -> Node:
+  if node == None:
+    raise ValueError('node is None')
+
+  if type(node) != Node:
+    raise TypeError('node is not a Node')
+
+  if value == None:
+    raise ValueError('value is None')
+
+  node_copy = CopyNode(node)
+
+  if value == node.value and node.right != None:
+    min_node = MinNode(node.right)
+    node_copy.right = DeleteNode(node.right, min_node.value)
+    node_copy.value =  min_node.value
+    return node_copy
+
+  if value < node.value:
+    node_copy.left = DeleteNode(node.left, value)
+
+  if node.value < value:
+    node_copy.right = DeleteNode(node.right, value)
+
+  return node_copy

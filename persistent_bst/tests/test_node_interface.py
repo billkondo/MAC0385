@@ -1,7 +1,8 @@
 import unittest
 
 from persistent_bst.node.node import Node
-from persistent_bst.node.interface import CopyNode, InsertNode, MinNode
+from persistent_bst.node.interface import CopyNode, InsertNode, MinNode, \
+  SearchNode, DeleteNode
 
 class NodeInterfaceTest(unittest.TestCase):
   def test_copy_node(self):
@@ -43,3 +44,31 @@ class NodeInterfaceTest(unittest.TestCase):
 
     root2 = InsertNode(InsertNode(None, 20), 10)
     self.assertEqual(MinNode(root2).value, 10)
+
+  def test_search_node(self):
+    self.assertRaises(TypeError, lambda: SearchNode('invalid', 5))
+    self.assertRaises(ValueError, lambda: SearchNode(Node(5), None))
+
+    root = InsertNode(InsertNode(InsertNode(None,3),2),1)
+
+    self.assertTrue(SearchNode(root,1))
+    self.assertTrue(SearchNode(root,2))
+    self.assertTrue(SearchNode(root,3))
+
+    self.assertFalse(SearchNode(root,4))
+    self.assertFalse(SearchNode(root,0))
+
+  def test_delete_node(self):
+    self.assertRaises(ValueError, lambda: DeleteNode(None, 5))
+    self.assertRaises(TypeError, lambda: DeleteNode('invalid', 5))
+    self.assertRaises(ValueError, lambda: DeleteNode(Node(5), None))
+
+    root = InsertNode(InsertNode(InsertNode(InsertNode(None,2),1),4),3)
+    
+    root1 = DeleteNode(root, 2)
+    self.assertEqual(root1.value, 3)
+    self.assertEqual(root1.right.value, 4)
+    self.assertEqual(root1.left.value, 1)
+    self.assertEqual(root1.left, root.left)
+    self.assertNotEqual(root1.right, root.right)
+    self.assertFalse(SearchNode(root1, 2))
