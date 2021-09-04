@@ -1,9 +1,20 @@
+from typing import Any
+
 from persistent_bst.bst import BST
 from persistent_bst.node.interface import CopyNode, DeleteNode, InsertNode, \
-  SearchNode
+  SearchNode, MinNode
 
 def NewBST() -> BST:
   return BST()
+
+def Empty(b: BST) -> bool:
+  if b == None:
+    raise ValueError('b is None')
+
+  if type(b) != BST:
+    raise TypeError('b is not a BST')
+
+  return b.root == None
 
 def CopyBST(b: BST) -> BST:
   if b == None:
@@ -41,3 +52,15 @@ def Delete(b: BST, value) -> BST:
     raise RuntimeError('value is not in b')
 
   return BST(DeleteNode(b.root, value))
+
+def Min(b: BST) -> Any:
+  if b == None:
+    raise ValueError('b is None')
+  
+  if type(b) != BST:
+    raise TypeError('b is not a BST')
+
+  if Empty(b):
+    raise ValueError('b is empty')
+
+  return MinNode(b.root).value

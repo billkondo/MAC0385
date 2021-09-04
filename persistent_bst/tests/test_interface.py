@@ -2,12 +2,19 @@ import unittest
 
 from persistent_bst.bst import BST
 from persistent_bst.interface import NewBST, CopyBST, Insert, Search, \
-  Delete
+  Delete, Min, Empty
 from persistent_bst.node.node import Node
 
 class InterfaceTest(unittest.TestCase):
   def setUp(self):
     self.bst = Insert(Insert(Insert(Insert(NewBST(), 2), 1), 4), 3)
+
+  def test_empty(self):
+    self.assertRaises(TypeError, lambda: Empty('invalid'))
+    self.assertRaises(ValueError, lambda: Empty(None))
+
+    self.assertTrue(Empty(NewBST()))
+    self.assertFalse(Empty(Insert(NewBST(),5)))
 
   def test_new_bst(self):
     bst = NewBST()
@@ -61,3 +68,10 @@ class InterfaceTest(unittest.TestCase):
 
     self.assertEqual(bst.root.value, 3)
     self.assertFalse(Search(bst, 2))
+
+  def test_min(self):
+    self.assertRaises(ValueError, lambda: Min(None))
+    self.assertRaises(TypeError, lambda: Min('invalid'))
+    self.assertRaises(ValueError, lambda: Min(NewBST()))
+
+    self.assertEqual(Min(self.bst),1)
