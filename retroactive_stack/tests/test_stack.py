@@ -12,3 +12,5 @@ class StackTest(unittest.TestCase):
         stack = Stack(bst=bst)
 
         self.assertEqual(bst, stack.bst)
+
+        self.assertIsInstance(Stack().bst, SimpleBST)
