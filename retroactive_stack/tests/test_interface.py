@@ -8,6 +8,8 @@ from retroactive_stack.interface import (
     Delete,
     Kth,
     NewStack,
+    Print,
+    Size,
     Top,
 )
 
@@ -78,3 +80,27 @@ class InterfaceTest(unittest.TestCase):
             key=20,
             k=1,
         )
+
+    def test_print(self):
+        bst = Mock(BST)
+        bst.print.return_value = "A B C D"
+        stack = NewStack(bst)
+
+        self.assertEqual(
+            Print(stack, 10),
+            "A B C D",
+        )
+
+        bst.print.assert_called_with(key=10)
+
+    def test_size(self):
+        bst = Mock(BST)
+        bst.size.return_value = 2
+        stack = NewStack(bst)
+
+        self.assertEqual(
+            Size(stack, 7),
+            2,
+        )
+
+        bst.size.assert_called_with(key=7)

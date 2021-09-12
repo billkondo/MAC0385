@@ -64,3 +64,13 @@ def Top(stack: Stack, time: int) -> Any:
         key=time,
         k=1,
     )
+
+
+@stack_validator
+def Size(stack: Stack, time: int) -> int:
+    return stack.bst.size(key=time)
+
+
+@stack_validator
+def Print(stack: Stack, time: int) -> str:
+    return stack.bst.print(key=time)
