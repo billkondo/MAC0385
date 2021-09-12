@@ -1,6 +1,6 @@
 import unittest
 
-from retroactive_stack.bst.avl.node import Node
+from retroactive_stack.bst.avl.node import Node, Sum
 from retroactive_stack.operation import Operation
 
 
@@ -26,3 +26,18 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(node.L)
         self.assertIsNone(node.R)
         self.assertEqual(node.sum, 0)
+
+    def test_sum(self):
+        self.assertRaises(TypeError, lambda: Sum('invalid'))
+
+        self.assertEqual(Sum(None), 0)
+
+        node = Node(
+            key=10,
+            operation=Operation(
+                type=1,
+                value="A",
+            ),
+        )
+        node.sum = 10
+        self.assertEqual(Sum(node), 10)

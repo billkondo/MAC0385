@@ -14,3 +14,13 @@ class Node:
         self.L: Node = None
         self.R: Node = None
         self.sum = 0
+
+
+def Sum(node: Node) -> int:
+    if node is None:
+        return 0
+
+    if type(node) is not Node:
+        raise TypeError("node is not a Node")
+
+    return node.sum
