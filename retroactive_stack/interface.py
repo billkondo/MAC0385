@@ -43,3 +43,24 @@ def AddPop(stack: Stack, time: int):
             type=-1,
         ),
     )
+
+
+@stack_validator
+def Delete(stack: Stack, time: int):
+    stack.bst.delete(time)
+
+
+@stack_validator
+def Kth(stack: Stack, time: int, k: int) -> Any:
+    return stack.bst.kth(
+        key=time,
+        k=k,
+    )
+
+
+@stack_validator
+def Top(stack: Stack, time: int) -> Any:
+    return stack.bst.kth(
+        key=time,
+        k=1,
+    )

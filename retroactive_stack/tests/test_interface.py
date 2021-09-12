@@ -2,7 +2,14 @@ import unittest
 from unittest.mock import Mock
 
 from retroactive_stack.bst.bst import BST
-from retroactive_stack.interface import AddPop, AddPush, NewStack
+from retroactive_stack.interface import (
+    AddPop,
+    AddPush,
+    Delete,
+    Kth,
+    NewStack,
+    Top,
+)
 
 
 class InterfaceTest(unittest.TestCase):
@@ -33,3 +40,41 @@ class InterfaceTest(unittest.TestCase):
         AddPop(stack, 10)
 
         bst.insert.assert_called_once()
+
+    def test_delete(self):
+        bst = Mock(BST)
+        stack = NewStack(bst)
+
+        Delete(stack, 10)
+
+        bst.delete.assert_called_with(10)
+
+    def test_kth(self):
+        bst = Mock(BST)
+        bst.kth.return_value = "A"
+        stack = NewStack(bst)
+
+        self.assertEqual(
+            Kth(stack, 10, 5),
+            "A",
+        )
+
+        bst.kth.assert_called_with(
+            key=10,
+            k=5,
+        )
+
+    def test_top(self):
+        bst = Mock(BST)
+        bst.kth.return_value = "A"
+        stack = NewStack(bst)
+
+        self.assertEqual(
+            Top(stack, 20),
+            "A",
+        )
+
+        bst.kth.assert_called_with(
+            key=20,
+            k=1,
+        )
