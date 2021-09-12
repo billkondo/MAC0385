@@ -55,20 +55,42 @@ class SimpleBSTTest(unittest.TestCase):
 
         self.assertEqual(bst.kth(8, 1), "C")
 
-    def test_count_less_than(self):
+    def test_size(self):
         bst = SimpleBST()
         operations = [
             Operation(type=1, value="A"),
             Operation(type=1, value="B"),
-            Operation(type=-1),
             Operation(type=1, value="C"),
+            Operation(type=-1),
+            Operation(type=-1),
         ]
 
-        bst.insert(1, operations[0])
-        bst.insert(3, operations[1])
-        bst.insert(5, operations[2])
-        bst.insert(7, operations[3])
+        for idx, op in enumerate(operations):
+            bst.insert(idx + 1, op)
 
-        self.assertEqual(bst.count_less_than(6), 3)
-        self.assertEqual(bst.count_less_than(3), 2)
-        self.assertEqual(bst.count_less_than(8), 4)
+        self.assertEqual(bst.size(1), 1)
+        self.assertEqual(bst.size(2), 2)
+        self.assertEqual(bst.size(3), 3)
+        self.assertEqual(bst.size(4), 2)
+        self.assertEqual(bst.size(5), 1)
+        self.assertEqual(bst.size(6), 1)
+
+    def test_print(self):
+        bst = SimpleBST()
+        operations = [
+            Operation(type=1, value="A"),
+            Operation(type=-1),
+            Operation(type=1, value="B"),
+            Operation(type=1, value="C"),
+            Operation(type=-1),
+        ]
+
+        for idx, op in enumerate(operations):
+            bst.insert(idx + 1, op)
+
+        self.assertEqual(bst.print(1), "A")
+        self.assertEqual(bst.print(2), "")
+        self.assertEqual(bst.print(3), "B")
+        self.assertEqual(bst.print(4), "C B")
+        self.assertEqual(bst.print(5), "B")
+        self.assertEqual(bst.print(6), "B")

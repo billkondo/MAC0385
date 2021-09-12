@@ -14,9 +14,12 @@ class BST(ABC):
         pass
 
     @abstractmethod
-    def count_less_than(self, key: int) -> int:
+    def kth(self, key: int, k: int) -> Any:
         pass
 
     @abstractmethod
-    def kth(self, key: int, k: int) -> Any:
+    def print(self, key: int) -> str:
+        pass
+
+    def size(self, key: int) -> int:
         pass

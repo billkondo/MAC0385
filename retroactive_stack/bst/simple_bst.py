@@ -21,16 +21,33 @@ class SimpleBST(BST):
     def delete(self, key: int):
         self.nodes = [node for node in self.nodes if node.key != key]
 
-    def count_less_than(self, key: int) -> int:
-        count = 0
-
-        for node in self.nodes:
-            if node.key <= key:
-                count += 1
-
-        return count
-
     def kth(self, key: int, k: int) -> Any:
+        stk = self.stack(key)
+
+        return stk[-k]
+
+    def size(self, key: int) -> int:
+        stk = self.stack(key)
+
+        return len(stk)
+
+    def print(self, key: int) -> str:
+        stk = self.stack(key)
+        stk.reverse()
+
+        stk_str = ""
+        for value in stk:
+            if len(stk_str) != 0:
+                stk_str += " "
+
+            stk_str += str(value)
+
+        return stk_str
+
+    def operations(self):
+        return list(map(lambda node: node.operation, self.nodes))
+
+    def stack(self, key: int) -> List[Any]:
         stk = []
 
         for node in self.nodes:
@@ -43,7 +60,4 @@ class SimpleBST(BST):
 
             stk.append(node.operation.value)
 
-        return stk[-k]
-
-    def operations(self):
-        return list(map(lambda node: node.operation, self.nodes))
+        return stk
