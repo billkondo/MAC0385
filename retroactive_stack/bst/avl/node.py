@@ -20,7 +20,14 @@ def Sum(node: Node) -> int:
     if node is None:
         return 0
 
-    if type(node) is not Node:
+    if not isinstance(node, Node):
         raise TypeError("node is not a Node")
 
     return node.sum
+
+
+def Update(node: Node):
+    if type(node) is not Node:
+        raise TypeError("node is not a Node")
+
+    node.sum = Sum(node.L) + Sum(node.R)
