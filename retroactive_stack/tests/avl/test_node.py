@@ -30,6 +30,7 @@ class NodeTest(unittest.TestCase):
         push_node = Node(key=10, operation=push_operation)
 
         self.assertEqual(push_node.key, 10)
+        self.assertEqual(push_node.min_key, 10)
         self.assertEqual(push_node.operation, push_operation)
         self.assertIsNone(push_node.L)
         self.assertIsNone(push_node.R)
@@ -42,6 +43,7 @@ class NodeTest(unittest.TestCase):
         pop_node = Node(key=20, operation=pop_operation)
 
         self.assertEqual(pop_node.key, 20)
+        self.assertEqual(pop_node.min_key, 20)
         self.assertEqual(pop_node.operation, pop_operation)
         self.assertIsNone(pop_node.L)
         self.assertIsNone(pop_node.R)
@@ -116,15 +118,18 @@ class NodeTest(unittest.TestCase):
         L.sum = 4
         L.max = 3
         L.prefix_max = 2
+        L.min_key = 2
         node.L = L
 
         R = Mock(spec=Node)
         R.sum = -5
         R.max = 8
         R.prefix_max = 2
+        R.min_key = 10
         node.R = R
 
         Update(node)
         self.assertEqual(node.sum, 0)
         self.assertEqual(node.prefix_max, 7)
         self.assertEqual(node.max, 8)
+        self.assertEqual(node.min_key, 2)

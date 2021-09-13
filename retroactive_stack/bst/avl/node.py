@@ -1,3 +1,5 @@
+from math import inf
+
 from retroactive_stack.operation import Operation
 
 
@@ -10,6 +12,7 @@ class Node:
             raise TypeError("operation is not a operation")
 
         self.key: int = key
+        self.min_key: int = key
         self.operation: Operation = operation
         self.L: Node = None
         self.R: Node = None
@@ -55,9 +58,27 @@ def Sum(node: Node) -> int:
     return node.sum
 
 
+def MinKey(node: Node) -> int:
+    if node is None:
+        return inf
+
+    if not isinstance(node, Node):
+        raise TypeError("node is not a Node")
+
+    return node.min_key
+
+
 def Update(node: Node):
     if type(node) is not Node:
         raise TypeError("node is not a Node")
+
+    node.min_key = min(
+        MinKey(node.L),
+        min(
+            node.key,
+            MinKey(node.R),
+        ),
+    )
 
     node.sum = Sum(node.L) + Sum(node.R) + node.operation.type
 
