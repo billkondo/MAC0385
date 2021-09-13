@@ -26,7 +26,7 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(node.operation, operation)
         self.assertIsNone(node.L)
         self.assertIsNone(node.R)
-        self.assertEqual(node.sum, 0)
+        self.assertEqual(node.sum, 1)
 
     def test_sum(self):
         self.assertRaises(TypeError, lambda: Sum("invalid"))
@@ -63,4 +63,4 @@ class NodeTest(unittest.TestCase):
         node.R = R
 
         Update(node)
-        self.assertEqual(node.sum, 5)
+        self.assertEqual(node.sum, 6)

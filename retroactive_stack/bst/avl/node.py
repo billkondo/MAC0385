@@ -13,7 +13,7 @@ class Node:
         self.operation: Operation = operation
         self.L: Node = None
         self.R: Node = None
-        self.sum = 0
+        self.sum = operation.type
 
 
 def Sum(node: Node) -> int:
@@ -30,4 +30,4 @@ def Update(node: Node):
     if type(node) is not Node:
         raise TypeError("node is not a Node")
 
-    node.sum = Sum(node.L) + Sum(node.R)
+    node.sum = Sum(node.L) + Sum(node.R) + node.operation.type
