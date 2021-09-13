@@ -13,7 +13,29 @@ class Node:
         self.operation: Operation = operation
         self.L: Node = None
         self.R: Node = None
-        self.sum = operation.type
+        self.sum: int = operation.type
+        self.max: int = max(0, operation.type)
+        self.prefix_max = max(0, operation.type)
+
+
+def Max(node: Node) -> int:
+    if node is None:
+        return 0
+
+    if not isinstance(node, Node):
+        raise TypeError("node is not a Node")
+
+    return node.max
+
+
+def PrefixMax(node: Node) -> int:
+    if node is None:
+        return 0
+
+    if not isinstance(node, Node):
+        raise TypeError("node is not a Node")
+
+    return node.prefix_max
 
 
 def Type(node: Node) -> int:
@@ -38,3 +60,16 @@ def Update(node: Node):
         raise TypeError("node is not a Node")
 
     node.sum = Sum(node.L) + Sum(node.R) + node.operation.type
+
+    node.prefix_max = 0
+    node.prefix_max = max(node.prefix_max, PrefixMax(node.L))
+    node.prefix_max = max(node.prefix_max, PrefixMax(node.R))
+    node.prefix_max = max(
+        node.prefix_max,
+        Sum(node.L) + Type(node) + PrefixMax(node.R),
+    )
+
+    node.max = 0
+    node.max = max(node.max, Max(node.L))
+    node.max = max(node.max, Max(node.R))
+    node.max = max(node.max, node.prefix_max)

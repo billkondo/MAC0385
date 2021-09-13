@@ -1,12 +1,19 @@
 import unittest
 from unittest.mock import Mock
 
-from retroactive_stack.bst.avl.node import Node, Sum, Type, Update
+from retroactive_stack.bst.avl.node import (
+    Max,
+    Node,
+    PrefixMax,
+    Sum,
+    Type,
+    Update,
+)
 from retroactive_stack.operation import Operation
 
 
 class NodeTest(unittest.TestCase):
-    def test_constructor(self):
+    def test_push_constructor(self):
         self.assertRaises(TypeError, lambda: Node())
         self.assertRaises(TypeError, lambda: Node(key=5))
         self.assertRaises(
@@ -19,14 +26,50 @@ class NodeTest(unittest.TestCase):
             ),
         )
 
-        operation = Operation(type=1, value="A")
-        node = Node(key=10, operation=operation)
+        push_operation = Operation(type=1, value="A")
+        push_node = Node(key=10, operation=push_operation)
 
-        self.assertEqual(node.key, 10)
-        self.assertEqual(node.operation, operation)
-        self.assertIsNone(node.L)
-        self.assertIsNone(node.R)
-        self.assertEqual(node.sum, 1)
+        self.assertEqual(push_node.key, 10)
+        self.assertEqual(push_node.operation, push_operation)
+        self.assertIsNone(push_node.L)
+        self.assertIsNone(push_node.R)
+        self.assertEqual(push_node.sum, 1)
+        self.assertEqual(push_node.max, 1)
+        self.assertEqual(push_node.prefix_max, 1)
+
+    def test_pop_constructor(self):
+        pop_operation = Operation(type=-1)
+        pop_node = Node(key=20, operation=pop_operation)
+
+        self.assertEqual(pop_node.key, 20)
+        self.assertEqual(pop_node.operation, pop_operation)
+        self.assertIsNone(pop_node.L)
+        self.assertIsNone(pop_node.R)
+        self.assertEqual(pop_node.sum, -1)
+        self.assertEqual(pop_node.max, 0)
+        self.assertEqual(pop_node.prefix_max, 0)
+
+    def test_max(self):
+        self.assertRaises(TypeError, lambda: Max("invalid"))
+
+        node = Node(
+            key=1,
+            operation=Operation(type=-1),
+        )
+        node.max = 10
+        self.assertEqual(Max(node), 10)
+        self.assertEqual(Max(None), 0)
+
+    def test_prefix_max(self):
+        self.assertRaises(TypeError, lambda: PrefixMax("invalid"))
+
+        node = Node(
+            key=15,
+            operation=Operation(type=-1),
+        )
+        node.prefix_max = 27
+        self.assertEqual(PrefixMax(node), 27)
+        self.assertEqual(PrefixMax(None), 0)
 
     def test_type(self):
         self.assertRaises(TypeError, lambda: Type(None))
@@ -47,8 +90,6 @@ class NodeTest(unittest.TestCase):
     def test_sum(self):
         self.assertRaises(TypeError, lambda: Sum("invalid"))
 
-        self.assertEqual(Sum(None), 0)
-
         node = Node(
             key=10,
             operation=Operation(
@@ -58,6 +99,7 @@ class NodeTest(unittest.TestCase):
         )
         node.sum = 10
         self.assertEqual(Sum(node), 10)
+        self.assertEqual(Sum(None), 0)
 
     def test_update(self):
         self.assertRaises(TypeError, lambda: Update(None))
@@ -71,12 +113,18 @@ class NodeTest(unittest.TestCase):
         )
 
         L = Mock(spec=Node)
-        L.sum = 10
+        L.sum = 4
+        L.max = 3
+        L.prefix_max = 2
         node.L = L
 
         R = Mock(spec=Node)
         R.sum = -5
+        R.max = 8
+        R.prefix_max = 2
         node.R = R
 
         Update(node)
-        self.assertEqual(node.sum, 6)
+        self.assertEqual(node.sum, 0)
+        self.assertEqual(node.prefix_max, 7)
+        self.assertEqual(node.max, 8)
