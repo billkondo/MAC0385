@@ -17,14 +17,23 @@ class AVLTest(unittest.TestCase):
             Operation(type=-1),
         ]
 
+        self.avl = AVL()
+
+        self.avl.insert(key=5, operation=self.operations[0])
+        self.avl.insert(key=10, operation=self.operations[1])
+        self.avl.insert(key=15, operation=self.operations[2])
+        self.avl.insert(key=20, operation=self.operations[3])
+        self.avl.insert(key=25, operation=self.operations[4])
+        self.avl.insert(key=30, operation=self.operations[5])
+
     def test_constructor(self):
         avl = AVL()
         self.assertIsNone(avl.root)
 
     def test_insert(self):
-        avl = AVL()
+        self.assertEqual(Sum(self.avl.root), 2)
 
-        for idx, op in enumerate(self.operations):
-            avl.insert(idx, op)
-
-        self.assertEqual(Sum(avl.root), 2)
+    def test_size(self):
+        self.assertEqual(self.avl.size(20), 2)
+        self.assertEqual(self.avl.size(25), 3)
+        self.assertEqual(self.avl.size(30), 2)

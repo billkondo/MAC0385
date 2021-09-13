@@ -16,6 +16,13 @@ class Node:
         self.sum = operation.type
 
 
+def Type(node: Node) -> int:
+    if not isinstance(node, Node):
+        raise TypeError("node is not a Node")
+
+    return node.operation.type
+
+
 def Sum(node: Node) -> int:
     if node is None:
         return 0
