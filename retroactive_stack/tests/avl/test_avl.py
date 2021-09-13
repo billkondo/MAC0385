@@ -42,3 +42,8 @@ class AVLTest(unittest.TestCase):
         self.assertEqual(self.avl.kth(20, 2), "A")
         self.assertEqual(self.avl.kth(25, 2), "C")
         self.assertEqual(self.avl.kth(30, 2), "A")
+
+    def test_print(self):
+        self.assertEqual(self.avl.print(20), "C A")
+        self.assertEqual(self.avl.print(25), "D C A")
+        self.assertEqual(self.avl.print(30), "C A")

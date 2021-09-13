@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from retroactive_stack.bst.avl.node import Node, Sum, Type, Update
 from retroactive_stack.bst.bst import BST
@@ -21,7 +21,10 @@ class AVL(BST):
         return None if node is None else node.operation.value
 
     def print(self, key: int) -> str:
-        pass
+        stack = []
+        Collect(self.root, key, stack)
+        stack.reverse()
+        return " ".join(stack)
 
     def size(self, key: int) -> int:
         return Size(self.root, key)
@@ -65,3 +68,21 @@ def Find(node: Node, key: int, left_sum: int, top: int) -> Node:
         return node
 
     return Find(node.L, key, left_sum, top)
+
+
+def Collect(node: Node, key: int, stack: List[str]):
+    if node is None:
+        return
+
+    if key < node.min_key:
+        return
+
+    Collect(node.L, key, stack)
+
+    if node.key <= key:
+        if Type(node) == 1:
+            stack.append(str(node.operation.value))
+        else:
+            stack.pop()
+
+    Collect(node.R, key, stack)
