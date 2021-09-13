@@ -16,7 +16,9 @@ class AVL(BST):
         pass
 
     def kth(self, key: int, k: int) -> Any:
-        pass
+        top = self.size(key)
+        node = Find(self.root, key, 0, top - k + 1)
+        return None if node is None else node.operation.value
 
     def print(self, key: int) -> str:
         pass
@@ -46,3 +48,20 @@ def Size(node: Node, key: int) -> int:
         return Sum(node.L) + Type(node) + Size(node.R, key)
 
     return Size(node.L, key)
+
+
+def Find(node: Node, key: int, left_sum: int, top: int) -> Node:
+    if node is None:
+        return None
+
+    if node.max < top or key < node.min_key:
+        return None
+
+    candidate = Find(node.R, key, left_sum + Sum(node.L) + Type(node), top)
+    if candidate is not None:
+        return candidate
+
+    if Type(node) == 1 and left_sum + Sum(node.L) + Type(node) == top:
+        return node
+
+    return Find(node.L, key, left_sum, top)
