@@ -21,5 +21,6 @@ class BST(ABC):
     def print(self, key: int) -> str:
         pass
 
+    @abstractmethod
     def size(self, key: int) -> int:
         pass
