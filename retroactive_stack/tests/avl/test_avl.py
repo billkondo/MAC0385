@@ -47,3 +47,15 @@ class AVLTest(unittest.TestCase):
         self.assertEqual(self.avl.print(20), "C A")
         self.assertEqual(self.avl.print(25), "D C A")
         self.assertEqual(self.avl.print(30), "C A")
+
+    def test_delete(self):
+        self.assertEqual(self.avl.kth(27, 3), "A")
+        self.avl.delete(15)
+        self.assertEqual(self.avl.kth(27, 3), "B")
+
+        self.avl.delete(25)
+        self.assertEqual(self.avl.kth(27, 3), "A")
+
+        self.assertEqual(self.avl.kth(31, 1), "B")
+        self.avl.delete(30)
+        self.assertEqual(self.avl.kth(31, 1), "C")

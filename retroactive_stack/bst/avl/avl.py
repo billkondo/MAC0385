@@ -13,7 +13,7 @@ class AVL(BST):
         self.root = Insert(self.root, key, operation)
 
     def delete(self, key: int):
-        pass
+        self.root = Delete(self.root, key)
 
     def kth(self, key: int, k: int) -> Any:
         top = self.size(key)
@@ -57,7 +57,7 @@ def Find(node: Node, key: int, left_sum: int, top: int) -> Node:
     if node is None:
         return None
 
-    if node.max < top or key < node.min_key:
+    if left_sum + node.max < top or key < node.min_key:
         return None
 
     candidate = Find(node.R, key, left_sum + Sum(node.L) + Type(node), top)
@@ -86,3 +86,39 @@ def Collect(node: Node, key: int, stack: List[str]):
             stack.pop()
 
     Collect(node.R, key, stack)
+
+
+def Delete(node: Node, key: int) -> Node:
+    if not isinstance(node, Node):
+        raise TypeError("node is not a node")
+
+    if node.key == key:
+        if node.R is not None:
+            min_node = Min(node.R)
+            min_node.R = Delete(node.R, min_node.key)
+            min_node.L = node.L
+            Update(min_node)
+            return min_node
+
+        if node.L is not None:
+            return node.L
+
+        return None
+
+    if key < node.key:
+        node.L = Delete(node.L, key)
+    else:
+        node.R = Delete(node.R, key)
+
+    Update(node)
+    return node
+
+
+def Min(node: Node) -> Node:
+    if not isinstance(node, Node):
+        raise TypeError("node is not a node")
+
+    if node.L is not None:
+        return Min(node.L)
+
+    return node
