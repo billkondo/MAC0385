@@ -59,7 +59,7 @@ class InterfaceTest(unittest.TestCase):
         self.assertEqual(new_deque.first, new_deque.last)
 
         self.assertEqual(new_deque.first.value, 1)
-        self.assertEqual(new_deque.first.parent, None)
+        self.assertEqual(new_deque.first.parent, new_deque.first)
         self.assertEqual(new_deque.first.depth, 0)
 
     def test_swap(self):
@@ -90,7 +90,7 @@ class InterfaceTest(unittest.TestCase):
         self.assertEqual(new_deque.first, new_deque.last)
 
         self.assertEqual(new_deque.first.value, 1)
-        self.assertEqual(new_deque.first.parent, None)
+        self.assertEqual(new_deque.first.parent, new_deque.first)
         self.assertEqual(new_deque.first.depth, 0)
 
 

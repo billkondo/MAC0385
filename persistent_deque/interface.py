@@ -1,7 +1,6 @@
 from persistent_deque.deque import Deque
 from persistent_deque.node.interface import (
     AddLeaf,
-    Depth,
     LevelAncestor,
     LowestCommonAncestor,
 )
@@ -67,17 +66,17 @@ def _Kth(deque: Deque, k: int) -> Node:
 
     mid = LowestCommonAncestor(u, v)
 
-    path_length = Depth(u) + Depth(v) - 2 * Depth(mid)
+    path_length = u.depth + v.depth - 2 * mid.depth
     if k > path_length:
         raise ValueError("k is greater than path length")
 
-    first_half_length = Depth(u) - Depth(mid)
+    first_half_length = u.depth - mid.depth
     is_in_first_half = k <= first_half_length
 
     if is_in_first_half:
         return LevelAncestor(k, u)
 
-    second_half_length = Depth(v) - Depth(mid)
+    second_half_length = v.depth - mid.depth
     return LevelAncestor(second_half_length - (k - first_half_length), v)
 
 

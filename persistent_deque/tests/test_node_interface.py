@@ -2,7 +2,6 @@ import unittest
 
 from persistent_deque.node.interface import (
     AddLeaf,
-    Depth,
     LevelAncestor,
     LowestCommonAncestor,
 )
@@ -18,12 +17,6 @@ class NodeInterfaceTest(unittest.TestCase):
         self.node4 = AddLeaf(4, self.node3)
         self.node5 = AddLeaf(5, self.node4)
 
-    def test_depth(self):
-        self.assertEqual(Depth(Node(4, None, 10)), 10)
-        self.assertEqual(Depth(None), -1)
-
-        self.assertRaises(TypeError, lambda: Depth("invalid"))
-
     def test_add_leaf(self):
         root = Node(0, None, 0)
         node = AddLeaf(1, root)
@@ -36,17 +29,17 @@ class NodeInterfaceTest(unittest.TestCase):
         node = AddLeaf(1, None)
 
         self.assertEqual(node.value, 1)
-        self.assertEqual(node.parent, None)
+        self.assertEqual(node.parent, node)
         self.assertEqual(node.depth, 0)
-        self.assertEqual(node.jump, None)
+        self.assertEqual(node.jump, node)
 
     def test_jump(self):
-        self.assertEqual(self.root.jump, None)
+        self.assertEqual(self.root.jump, self.root)
         self.assertEqual(self.node1.jump, self.root)
-        self.assertEqual(self.node2.jump, None)
-        self.assertEqual(self.node3.jump, self.node2)
+        self.assertEqual(self.node2.jump, self.node1)
+        self.assertEqual(self.node3.jump, self.root)
         self.assertEqual(self.node4.jump, self.node3)
-        self.assertEqual(self.node5.jump, self.node2)
+        self.assertEqual(self.node5.jump, self.node4)
 
     def test_level_ancestor(self):
         self.assertEqual(LevelAncestor(0, self.root), self.root)

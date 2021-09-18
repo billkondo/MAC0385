@@ -9,7 +9,7 @@ class NodeTest(unittest.TestCase):
         node = Node(2, parent, 2)
 
         self.assertEqual(parent.value, 5)
-        self.assertEqual(parent.parent, None)
+        self.assertEqual(parent.parent, parent)
         self.assertEqual(parent.depth, 0)
 
         self.assertEqual(node.value, 2)
