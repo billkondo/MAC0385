@@ -29,6 +29,8 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(push_node.R)
         self.assertEqual(push_node.sum, 1)
         self.assertEqual(push_node.max, 1)
+        self.assertEqual(push_node.height, 0)
+        self.assertEqual(push_node.balance, 0)
 
     def test_pop_constructor(self):
         pop_operation = Operation(type=-1)
@@ -41,6 +43,8 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(pop_node.R)
         self.assertEqual(pop_node.sum, -1)
         self.assertEqual(pop_node.max, 0)
+        self.assertEqual(pop_node.height, 0)
+        self.assertEqual(pop_node.balance, 0)
 
     def test_max(self):
         self.assertRaises(TypeError, lambda: Max("invalid"))

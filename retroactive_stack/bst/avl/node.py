@@ -18,6 +18,8 @@ class Node:
         self.R: Node = None
         self.sum: int = operation.type
         self.max: int = max(0, operation.type)
+        self.height: int = 0
+        self.balance: int = 0
 
 
 def Max(node: Node) -> int:
