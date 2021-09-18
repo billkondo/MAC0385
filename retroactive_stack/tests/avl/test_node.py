@@ -1,14 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
-from retroactive_stack.bst.avl.node import (
-    Max,
-    Node,
-    PrefixMax,
-    Sum,
-    Type,
-    Update,
-)
+from retroactive_stack.bst.avl.node import Max, Node, Sum, Type, Update
 from retroactive_stack.operation import Operation
 
 
@@ -36,7 +29,6 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(push_node.R)
         self.assertEqual(push_node.sum, 1)
         self.assertEqual(push_node.max, 1)
-        self.assertEqual(push_node.prefix_max, 1)
 
     def test_pop_constructor(self):
         pop_operation = Operation(type=-1)
@@ -49,7 +41,6 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(pop_node.R)
         self.assertEqual(pop_node.sum, -1)
         self.assertEqual(pop_node.max, 0)
-        self.assertEqual(pop_node.prefix_max, 0)
 
     def test_max(self):
         self.assertRaises(TypeError, lambda: Max("invalid"))
@@ -61,17 +52,6 @@ class NodeTest(unittest.TestCase):
         node.max = 10
         self.assertEqual(Max(node), 10)
         self.assertEqual(Max(None), 0)
-
-    def test_prefix_max(self):
-        self.assertRaises(TypeError, lambda: PrefixMax("invalid"))
-
-        node = Node(
-            key=15,
-            operation=Operation(type=-1),
-        )
-        node.prefix_max = 27
-        self.assertEqual(PrefixMax(node), 27)
-        self.assertEqual(PrefixMax(None), 0)
 
     def test_type(self):
         self.assertRaises(TypeError, lambda: Type(None))
@@ -117,19 +97,16 @@ class NodeTest(unittest.TestCase):
         L = Mock(spec=Node)
         L.sum = 4
         L.max = 3
-        L.prefix_max = 2
         L.min_key = 2
         node.L = L
 
         R = Mock(spec=Node)
         R.sum = -5
         R.max = 8
-        R.prefix_max = 2
         R.min_key = 10
         node.R = R
 
         Update(node)
         self.assertEqual(node.sum, 0)
-        self.assertEqual(node.prefix_max, 7)
-        self.assertEqual(node.max, 8)
+        self.assertEqual(node.max, 13)
         self.assertEqual(node.min_key, 2)
