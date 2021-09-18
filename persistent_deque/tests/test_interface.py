@@ -114,18 +114,18 @@ class PopInterfaceTest(unittest.TestCase):
         self.node5 = self.deque5.last
 
     def test_kth(self):
-        self.assertEqual(Kth(self.deque5, 0), 3)
-        self.assertEqual(Kth(self.deque5, 1), 2)
-        self.assertEqual(Kth(self.deque5, 2), 1)
-        self.assertEqual(Kth(self.deque5, 3), 4)
-        self.assertEqual(Kth(self.deque5, 4), 5)
+        self.assertEqual(Kth(self.deque5, 1), 3)
+        self.assertEqual(Kth(self.deque5, 2), 2)
+        self.assertEqual(Kth(self.deque5, 3), 1)
+        self.assertEqual(Kth(self.deque5, 4), 4)
+        self.assertEqual(Kth(self.deque5, 5), 5)
 
-        self.assertEqual(Kth(self.deque1, 0), 1)
-        self.assertEqual(Kth(self.deque2, 1), 1)
+        self.assertEqual(Kth(self.deque1, 1), 1)
+        self.assertEqual(Kth(self.deque2, 2), 1)
 
     def test_kth_raises(self):
-        self.assertRaises(ValueError, lambda: Kth(self.deque5, 5))
-        self.assertRaises(ValueError, lambda: Kth(self.deque4, 4))
+        self.assertRaises(ValueError, lambda: Kth(self.deque5, 6))
+        self.assertRaises(ValueError, lambda: Kth(self.deque4, 5))
         self.assertRaises(TypeError, lambda: Kth(None, 1))
         self.assertRaises(TypeError, lambda: Kth("invalid", 1))
         self.assertRaises(TypeError, lambda: Kth(self.deque2, "invalid"))

@@ -57,6 +57,8 @@ def _Kth(deque: Deque, k: int) -> Node:
     if k is None or type(k) != int:
         raise TypeError("k is not an integer")
 
+    k = k - 1
+
     if k < 0:
         raise ValueError("k is less than zero")
 
@@ -93,7 +95,7 @@ def PopFront(deque: Deque) -> Deque:
     if deque.first == deque.last:
         return NewDeque()
 
-    return Deque(_Kth(deque, 1), deque.last)
+    return Deque(_Kth(deque, 2), deque.last)
 
 
 @deque_validator
