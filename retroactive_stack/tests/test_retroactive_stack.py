@@ -1,5 +1,6 @@
 import unittest
 
+from retroactive_stack.bst.avl.avl import AVL
 from retroactive_stack.interface import (
     AddPop,
     AddPush,
@@ -10,12 +11,11 @@ from retroactive_stack.interface import (
     Size,
     Top,
 )
+from retroactive_stack.stack import Stack
 
 
 class ReatroactiveStackTest(unittest.TestCase):
-    def test_with_simple_bst(self):
-        stack = NewStack()
-
+    def run_test_01(self, stack: Stack):
         AddPush(stack, 10, "A")
         AddPush(stack, 20, "C")
         AddPush(stack, 30, "F")
@@ -47,3 +47,11 @@ class ReatroactiveStackTest(unittest.TestCase):
         self.assertEqual(Print(stack, 22), "C Z")
         self.assertEqual(Size(stack, 22), 2)
         self.assertEqual(Size(stack, 25), 1)
+
+    def test_with_simple_bst(self):
+        stack = NewStack()
+        self.run_test_01(stack)
+
+    def test_with_avl(self):
+        stack = NewStack(AVL())
+        self.run_test_01(stack)
