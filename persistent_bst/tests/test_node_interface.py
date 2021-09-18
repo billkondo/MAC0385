@@ -1,88 +1,97 @@
 import unittest
 
+from persistent_bst.node.interface import (
+    CopyNode,
+    DeleteNode,
+    InsertNode,
+    MinNode,
+    PrintNode,
+    SearchNode,
+)
 from persistent_bst.node.node import Node
-from persistent_bst.node.interface import CopyNode, InsertNode, MinNode, \
-  SearchNode, DeleteNode, PrintNode
+
 
 class NodeInterfaceTest(unittest.TestCase):
-  def setUp(self):
-    self.root = InsertNode(InsertNode(InsertNode(InsertNode(None,2),1),4),3)
-    self.left_chain = InsertNode(InsertNode(InsertNode(None, 3), 2), 1)
-    self.right_chain = InsertNode(InsertNode(InsertNode(None, 4), 5), 6)
+    def setUp(self):
+        self.root = InsertNode(
+            InsertNode(InsertNode(InsertNode(None, 2), 1), 4), 3
+        )
+        self.left_chain = InsertNode(InsertNode(InsertNode(None, 3), 2), 1)
+        self.right_chain = InsertNode(InsertNode(InsertNode(None, 4), 5), 6)
 
-  def test_copy_node(self):
-    self.assertRaises(TypeError, lambda: CopyNode('invalid'))
+    def test_copy_node(self):
+        self.assertRaises(TypeError, lambda: CopyNode("invalid"))
 
-    node = Node(5)
-    node.left = Node(4)
-    node.right = Node(7)
+        node = Node(5)
+        node.left = Node(4)
+        node.right = Node(7)
 
-    copy_node = CopyNode(node)
+        copy_node = CopyNode(node)
 
-    self.assertEqual(copy_node.left, node.left)
-    self.assertEqual(copy_node.right, node.right)
-    self.assertEqual(copy_node.value, node.value)
-    self.assertNotEqual(copy_node, node)
+        self.assertEqual(copy_node.left, node.left)
+        self.assertEqual(copy_node.right, node.right)
+        self.assertEqual(copy_node.value, node.value)
+        self.assertNotEqual(copy_node, node)
 
-  def test_insert_node(self):
-    self.assertRaises(TypeError, lambda: InsertNode('invalid', 5))
-    self.assertRaises(ValueError, lambda: InsertNode(Node(1), None))
+    def test_insert_node(self):
+        self.assertRaises(TypeError, lambda: InsertNode("invalid", 5))
+        self.assertRaises(ValueError, lambda: InsertNode(Node(1), None))
 
-    new_node = InsertNode(None, 5)
-    self.assertEqual(new_node.value, 5)
+        new_node = InsertNode(None, 5)
+        self.assertEqual(new_node.value, 5)
 
-    root = Node(10)
-    root_right = InsertNode(root, 15)
-    self.assertEqual(root_right.right.value, 15)
-    self.assertNotEqual(root, root_right)
-    
-    root_left = InsertNode(root, 5)
-    self.assertEqual(root_left.left.value, 5)
-    self.assertNotEqual(root, root_left)
+        root = Node(10)
+        root_right = InsertNode(root, 15)
+        self.assertEqual(root_right.right.value, 15)
+        self.assertNotEqual(root, root_right)
 
-  def test_min_node(self):
-    self.assertRaises(ValueError, lambda: MinNode(None))
-    self.assertRaises(TypeError, lambda: MinNode('invalid'))
+        root_left = InsertNode(root, 5)
+        self.assertEqual(root_left.left.value, 5)
+        self.assertNotEqual(root, root_left)
 
-    root1 = InsertNode(InsertNode(None, 5), 10)
-    self.assertEqual(MinNode(root1).value, 5)
+    def test_min_node(self):
+        self.assertRaises(ValueError, lambda: MinNode(None))
+        self.assertRaises(TypeError, lambda: MinNode("invalid"))
 
-    root2 = InsertNode(InsertNode(None, 20), 10)
-    self.assertEqual(MinNode(root2).value, 10)
+        root1 = InsertNode(InsertNode(None, 5), 10)
+        self.assertEqual(MinNode(root1).value, 5)
 
-  def test_search_node(self):
-    self.assertRaises(TypeError, lambda: SearchNode('invalid', 5))
-    self.assertRaises(ValueError, lambda: SearchNode(Node(5), None))
+        root2 = InsertNode(InsertNode(None, 20), 10)
+        self.assertEqual(MinNode(root2).value, 10)
 
-    root = InsertNode(InsertNode(InsertNode(None,3),2),1)
+    def test_search_node(self):
+        self.assertRaises(TypeError, lambda: SearchNode("invalid", 5))
+        self.assertRaises(ValueError, lambda: SearchNode(Node(5), None))
 
-    self.assertTrue(SearchNode(root,1))
-    self.assertTrue(SearchNode(root,2))
-    self.assertTrue(SearchNode(root,3))
+        root = InsertNode(InsertNode(InsertNode(None, 3), 2), 1)
 
-    self.assertFalse(SearchNode(root,4))
-    self.assertFalse(SearchNode(root,0))
+        self.assertTrue(SearchNode(root, 1))
+        self.assertTrue(SearchNode(root, 2))
+        self.assertTrue(SearchNode(root, 3))
 
-  def test_delete_node(self):
-    self.assertRaises(ValueError, lambda: DeleteNode(None, 5))
-    self.assertRaises(TypeError, lambda: DeleteNode('invalid', 5))
-    self.assertRaises(ValueError, lambda: DeleteNode(Node(5), None))
-    
-    root1 = DeleteNode(self.root, 2)
-    self.assertEqual(root1.value, 3)
-    self.assertEqual(root1.right.value, 4)
-    self.assertEqual(root1.left.value, 1)
-    self.assertEqual(root1.left, self.root.left)
-    self.assertNotEqual(root1.right, self.root.right)
-    self.assertFalse(SearchNode(root1, 2))
+        self.assertFalse(SearchNode(root, 4))
+        self.assertFalse(SearchNode(root, 0))
 
-    root2 = DeleteNode(self.left_chain, 3)
-    self.assertEqual(root2.value, 2)
-    self.assertEqual(root2.left.value, 1)
+    def test_delete_node(self):
+        self.assertRaises(ValueError, lambda: DeleteNode(None, 5))
+        self.assertRaises(TypeError, lambda: DeleteNode("invalid", 5))
+        self.assertRaises(ValueError, lambda: DeleteNode(Node(5), None))
 
-    root3 = DeleteNode(self.right_chain, 4)
-    self.assertEqual(root3.value, 5)
-    self.assertEqual(root3.right.value, 6)
+        root1 = DeleteNode(self.root, 2)
+        self.assertEqual(root1.value, 3)
+        self.assertEqual(root1.right.value, 4)
+        self.assertEqual(root1.left.value, 1)
+        self.assertEqual(root1.left, self.root.left)
+        self.assertNotEqual(root1.right, self.root.right)
+        self.assertFalse(SearchNode(root1, 2))
 
-  def test_print_node(self):
-    self.assertEqual(PrintNode(self.root), "2 1 4 3")
+        root2 = DeleteNode(self.left_chain, 3)
+        self.assertEqual(root2.value, 2)
+        self.assertEqual(root2.left.value, 1)
+
+        root3 = DeleteNode(self.right_chain, 4)
+        self.assertEqual(root3.value, 5)
+        self.assertEqual(root3.right.value, 6)
+
+    def test_print_node(self):
+        self.assertEqual(PrintNode(self.root), "2 1 4 3")
