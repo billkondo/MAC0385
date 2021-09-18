@@ -105,13 +105,25 @@ def PopBack(deque: Deque) -> Deque:
 
 @deque_validator
 def Print(deque: Deque) -> str:
-    deque_str = ""
+    if deque.first is None:
+        return ""
 
-    while deque.first is not None:
-        if len(deque_str) != 0:
-            deque_str += " "
+    mid = LowestCommonAncestor(deque.first, deque.last)
 
-        deque_str += str(deque.first.value)
-        deque = PopFront(deque)
+    first_path = []
+    u = deque.first
+    while u is not mid:
+        first_path.append(str(u.value))
+        u = u.parent
 
-    return deque_str
+    first_path.append(str(u.value))
+
+    second_path = []
+    v = deque.last
+    while v is not mid:
+        second_path.append(str(v.value))
+        v = v.parent
+
+    second_path.reverse()
+
+    return " ".join(first_path + second_path)
