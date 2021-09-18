@@ -102,16 +102,16 @@ def PrintNode(node: Node) -> str:
     if node is None:
         return ""
 
-    def print_in_order_traversal(u: Node, values):
+    def print_pre_order_traversal(u: Node, values):
         if u is None:
             return
 
         values.append(str(u.value))
 
-        print_in_order_traversal(u.left, values)
-        print_in_order_traversal(u.right, values)
+        print_pre_order_traversal(u.left, values)
+        print_pre_order_traversal(u.right, values)
 
     values = []
-    print_in_order_traversal(node, values)
+    print_pre_order_traversal(node, values)
 
     return " ".join(values)
