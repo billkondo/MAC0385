@@ -48,10 +48,45 @@ class ReatroactiveStackTest(unittest.TestCase):
         self.assertEqual(Size(stack, 22), 2)
         self.assertEqual(Size(stack, 25), 1)
 
-    def test_with_simple_bst(self):
+    def test_with_simple_bst_01(self):
         stack = NewStack()
         self.run_test_01(stack)
 
-    def test_with_avl(self):
+    def test_with_avl_01(self):
         stack = NewStack(AVL())
         self.run_test_01(stack)
+
+    def test_wit_avl_02(self):
+        stack_avl = NewStack(AVL())
+        stack = NewStack()
+
+        def compare(time: int):
+            size = Size(stack, time)
+            self.assertEqual(Size(stack_avl, time), size)
+            self.assertEqual(Top(stack_avl, time), Top(stack, time))
+            self.assertEqual(Print(stack, time), Print(stack_avl, time))
+
+            for k in range(1, size + 1):
+                self.assertEqual(Kth(stack, time, k), Kth(stack_avl, time, k))
+
+        self.assertEqual(Size(stack_avl, 100), 0)
+        self.assertEqual(Size(stack_avl, 100), 0)
+
+        for time in range(1, 100):
+            if time % 10 == 0:
+                AddPop(stack_avl, time)
+                AddPop(stack, time)
+            else:
+                AddPush(stack_avl, time, time)
+                AddPush(stack, time, time)
+
+            compare(time)
+
+        for time in range(1, 100):
+            compare(time)
+
+        for time in range(5, 100, 4):
+            Delete(stack, time)
+            Delete(stack_avl, time)
+
+            compare(time)

@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from retroactive_stack.bst.avl.node import Node, Sum, Type, Update
+from retroactive_stack.bst.avl.node import Balance, Node, Sum, Type, Update
 from retroactive_stack.bst.bst import BST
 from retroactive_stack.operation import Operation
 
@@ -40,7 +40,7 @@ def Insert(node: Node, key: int, operation: Operation) -> Node:
         node.R = Insert(node.R, key, operation)
 
     Update(node)
-    return node
+    return Balance(node)
 
 
 def Size(node: Node, key: int) -> int:
@@ -98,7 +98,7 @@ def Delete(node: Node, key: int) -> Node:
             min_node.R = Delete(node.R, min_node.key)
             min_node.L = node.L
             Update(min_node)
-            return min_node
+            return Balance(min_node)
 
         if node.L is not None:
             return node.L
@@ -111,7 +111,7 @@ def Delete(node: Node, key: int) -> Node:
         node.R = Delete(node.R, key)
 
     Update(node)
-    return node
+    return Balance(node)
 
 
 def Min(node: Node) -> Node:
