@@ -5,6 +5,7 @@ from retroactive_stack.bst.avl.node import (
     Height,
     Max,
     Node,
+    RotateLeft,
     RotateRight,
     Sum,
     Type,
@@ -236,6 +237,52 @@ class NodeTest(unittest.TestCase):
 
         self.assertEqual(y.sum, 1)
         self.assertEqual(y.max, 2)
+        self.assertEqual(y.height, 2)
+        self.assertEqual(y.balance, 1)
 
         self.assertEqual(x.sum, -1)
         self.assertEqual(x.max, 0)
+        self.assertEqual(x.height, 1)
+
+    def test_rotate_left(self):
+        self.assertRaises(TypeError, lambda: RotateLeft("invalid"))
+
+        node_no_right_child = Node(
+            key=10,
+            operation=Operation(
+                type=1,
+                value="A",
+            ),
+        )
+        self.assertEqual(RotateLeft(node_no_right_child), node_no_right_child)
+
+        y = Node(10, Operation(1, "A"))
+        x = Node(15, Operation(-1))
+        t1 = Node(5, Operation(1, "C"))
+        t2 = Node(12, Operation(1, "B"))
+        t3 = Node(20, Operation(-1))
+
+        y.L = t1
+        y.R = x
+
+        x.L = t2
+        x.R = t3
+
+        Update(x)
+        Update(y)
+
+        node = RotateLeft(y)
+        self.assertEqual(node, x)
+        self.assertEqual(node.L, y)
+        self.assertEqual(node.R, t3)
+        self.assertEqual(y.L, t1)
+        self.assertEqual(y.R, t2)
+
+        self.assertEqual(x.sum, 1)
+        self.assertEqual(x.max, 3)
+        self.assertEqual(x.height, 2)
+        self.assertEqual(x.balance, -1)
+
+        self.assertEqual(y.sum, 3)
+        self.assertEqual(y.max, 3)
+        self.assertEqual(y.height, 1)

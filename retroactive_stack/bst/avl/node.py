@@ -90,11 +90,11 @@ def Update(node: Node):
 
 
 def RotateRight(node: Node) -> Node:
-    #          x               y
-    #        / |             / |
-    #       y  T3   =>     T1  x
-    #     / |                / |
-    #   T1  T2             T2  T3
+    #          x             y
+    #        / |           / |
+    #       y  T3   =>   T1  x
+    #     / |              / |
+    #   T1  T2           T2  T3
 
     if not isinstance(node, Node):
         raise TypeError("node is not a node")
@@ -105,13 +105,37 @@ def RotateRight(node: Node) -> Node:
     x = node
     y = node.L
     t2 = y.R
-    t3 = x.R
 
     y.R = x
     x.L = t2
-    x.R = t3
 
     Update(x)
     Update(y)
 
     return y
+
+
+def RotateLeft(node: Node) -> Node:
+    #          y               x
+    #        / |             / |
+    #      T1  x   =>       y  T3
+    #        / |          / |
+    #      T2  T3       T1  T2
+
+    if not isinstance(node, Node):
+        raise TypeError("node is not a node")
+
+    if node.R is None:
+        return node
+
+    y = node
+    x = node.R
+    t2 = x.L
+
+    y.R = t2
+    x.L = y
+
+    Update(y)
+    Update(x)
+
+    return x
