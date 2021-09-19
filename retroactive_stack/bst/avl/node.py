@@ -22,6 +22,13 @@ class Node:
         self.balance: int = 0
 
 
+def Height(node: Node) -> int:
+    if node is None:
+        return -1
+
+    return node.height
+
+
 def Max(node: Node) -> int:
     if node is None:
         return 0
@@ -71,9 +78,12 @@ def Update(node: Node):
         ),
     )
 
-    node.sum = Sum(node.L) + Sum(node.R) + node.operation.type
+    node.sum = Sum(node.L) + Sum(node.R) + Type(node)
 
     node.max = 0
     node.max = max(node.max, Max(node.L))
     node.max = max(node.max, Sum(node.L) + Type(node) + Max(node.R))
     node.max = max(node.max, Sum(node.L) + Type(node))
+
+    node.height = max(Height(node.L), Height(node.R)) + 1
+    node.balance = Height(node.R) - Height(node.L)

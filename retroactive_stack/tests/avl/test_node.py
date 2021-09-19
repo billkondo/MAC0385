@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
-from retroactive_stack.bst.avl.node import Max, Node, Sum, Type, Update
+from retroactive_stack.bst.avl.node import Height, Max, Node, Sum, Type, Update
 from retroactive_stack.operation import Operation
 
 
@@ -45,6 +45,18 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(pop_node.max, 0)
         self.assertEqual(pop_node.height, 0)
         self.assertEqual(pop_node.balance, 0)
+
+    def test_height(self):
+        self.assertEqual(Height(None), -1)
+
+        node = Node(
+            key=10,
+            operation=Operation(
+                type=-1,
+            ),
+        )
+        node.height = 5
+        self.assertEqual(Height(node), 5)
 
     def test_max(self):
         self.assertRaises(TypeError, lambda: Max("invalid"))
@@ -102,15 +114,82 @@ class NodeTest(unittest.TestCase):
         L.sum = 4
         L.max = 3
         L.min_key = 2
+        L.height = 4
         node.L = L
 
         R = Mock(spec=Node)
         R.sum = -5
         R.max = 8
         R.min_key = 10
+        R.height = 5
         node.R = R
 
         Update(node)
         self.assertEqual(node.sum, 0)
         self.assertEqual(node.max, 13)
         self.assertEqual(node.min_key, 2)
+        self.assertEqual(node.height, 6)
+        self.assertEqual(node.balance, 1)
+
+    def test_update_left_empty(self):
+        node = Node(
+            key=10,
+            operation=Operation(
+                type=-1,
+            ),
+        )
+
+        R = Mock(spec=Node)
+        R.sum = 5
+        R.max = 2
+        R.min_key = 14
+        R.height = 2
+        node.R = R
+
+        Update(node)
+        self.assertEqual(node.sum, 4)
+        self.assertEqual(node.max, 1)
+        self.assertEqual(node.min_key, 10)
+        self.assertEqual(node.height, 3)
+        self.assertEqual(node.balance, 3)
+
+    def test_update_right_empty(self):
+        node = Node(
+            key=10,
+            operation=Operation(
+                type=-1,
+            ),
+        )
+
+        L = Mock(spec=Node)
+        L.sum = 10
+        L.max = 11
+        L.min_key = 2
+        L.height = 4
+        node.L = L
+
+        Update(node)
+        self.assertEqual(node.sum, 9)
+        self.assertEqual(node.max, 11)
+        self.assertEqual(node.min_key, 2)
+        self.assertEqual(node.height, 5)
+        self.assertEqual(node.balance, -5)
+
+    def test_update_leaf(self):
+        node = Node(
+            key=10,
+            operation=Operation(
+                type=1,
+                value="A",
+            ),
+        )
+
+        node.height = 2
+        node.balance = 2
+
+        Update(node)
+        self.assertEqual(node.sum, 1)
+        self.assertEqual(node.max, 1)
+        self.assertEqual(node.min_key, 10)
+        self.assertEqual(node.height, 0)
+        self.assertEqual(node.balance, 0)
