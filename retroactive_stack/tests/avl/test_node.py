@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import Mock
 
 from retroactive_stack.bst.avl.node import (
+    Balance,
     Height,
     Max,
     Node,
@@ -286,3 +287,88 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(y.sum, 3)
         self.assertEqual(y.max, 3)
         self.assertEqual(y.height, 1)
+
+    def test_balance(self):
+        self.assertRaises(TypeError, lambda: Balance("invalid"))
+
+        x = Node(10, Operation(1, "C"))
+        xL = Node(5, Operation(1, "B"))
+        xR = Node(15, Operation(-1))
+        xLL = Node(0, Operation(1, "A"))
+
+        x.L = xL
+        x.R = xR
+        xL.L = xLL
+
+        Update(xL)
+        Update(x)
+
+        node = Balance(x)
+        self.assertEqual(node, x)
+        self.assertEqual(node.L, xL)
+        self.assertEqual(node.R, xR)
+        self.assertEqual(xL.L, xLL)
+
+    def test_balance_left(self):
+        x = Node(10, Operation(1, "C"))
+        xL = Node(5, Operation(1, "B"))
+        xLL = Node(0, Operation(1, "A"))
+
+        x.L = xL
+        xL.L = xLL
+
+        Update(xL)
+        Update(x)
+
+        node = Balance(x)
+        self.assertEqual(node, xL)
+        self.assertEqual(node.R, x)
+        self.assertEqual(node.L, xLL)
+
+    def test_balance_left_right(self):
+        x = Node(10, Operation(1, "C"))
+        xL = Node(5, Operation(1, "A"))
+        xLR = Node(8, Operation(1, "B"))
+
+        x.L = xL
+        xL.R = xLR
+
+        Update(xL)
+        Update(x)
+
+        node = Balance(x)
+        self.assertEqual(node, xLR)
+        self.assertEqual(node.L, xL)
+        self.assertEqual(node.R, x)
+
+    def test_balance_right(self):
+        x = Node(10, Operation(1, "A"))
+        xR = Node(15, Operation(1, "B"))
+        xRR = Node(20, Operation(1, "C"))
+
+        x.R = xR
+        xR.R = xRR
+
+        Update(xR)
+        Update(x)
+
+        node = Balance(x)
+        self.assertEqual(node, xR)
+        self.assertEqual(node.L, x)
+        self.assertEqual(node.R, xRR)
+
+    def test_balance_right_left(self):
+        x = Node(10, Operation(1, "A"))
+        xR = Node(15, Operation(1, "B"))
+        xRL = Node(12, Operation(-1))
+
+        x.R = xR
+        xR.L = xRL
+
+        Update(xR)
+        Update(x)
+
+        node = Balance(x)
+        self.assertEqual(node, xRL)
+        self.assertEqual(node.L, x)
+        self.assertEqual(node.R, xR)

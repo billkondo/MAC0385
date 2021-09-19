@@ -139,3 +139,24 @@ def RotateLeft(node: Node) -> Node:
     Update(x)
 
     return x
+
+
+def Balance(node: Node) -> Node:
+    if not isinstance(node, Node):
+        raise TypeError("node is not a node")
+
+    if node.balance <= -2:
+        if node.L is not None and node.L.balance <= 0:
+            return RotateRight(node)
+
+        node.L = RotateLeft(node.L)
+        return RotateRight(node)
+
+    if node.balance >= 2:
+        if node.R is not None and node.R.balance >= 0:
+            return RotateLeft(node)
+
+        node.R = RotateRight(node.R)
+        return RotateLeft(node)
+
+    return node
