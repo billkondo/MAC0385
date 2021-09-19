@@ -17,7 +17,8 @@ class Node:
         self.L: Node = None
         self.R: Node = None
         self.sum: int = operation.type
-        self.max: int = max(0, operation.type)
+        self.max: int = operation.type
+        self.min: int = operation.type
         self.height: int = 0
         self.balance: int = 0
 
@@ -31,12 +32,22 @@ def Height(node: Node) -> int:
 
 def Max(node: Node) -> int:
     if node is None:
-        return 0
+        return -inf
 
     if not isinstance(node, Node):
         raise TypeError("node is not a Node")
 
     return node.max
+
+
+def Min(node: Node) -> int:
+    if node is None:
+        return inf
+
+    if not isinstance(node, Node):
+        raise TypeError("node is not a Node")
+
+    return node.min
 
 
 def Type(node: Node) -> int:
@@ -80,10 +91,13 @@ def Update(node: Node):
 
     node.sum = Sum(node.L) + Sum(node.R) + Type(node)
 
-    node.max = 0
-    node.max = max(node.max, Max(node.L))
+    node.max = Max(node.L)
     node.max = max(node.max, Sum(node.L) + Type(node) + Max(node.R))
     node.max = max(node.max, Sum(node.L) + Type(node))
+
+    node.min = Min(node.L)
+    node.min = min(node.min, Sum(node.L) + Type(node) + Min(node.R))
+    node.min = min(node.min, Sum(node.L) + Type(node))
 
     node.height = max(Height(node.L), Height(node.R)) + 1
     node.balance = Height(node.R) - Height(node.L)

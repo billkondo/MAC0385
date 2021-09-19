@@ -1,10 +1,12 @@
 import unittest
+from math import inf
 from unittest.mock import Mock
 
 from retroactive_stack.bst.avl.node import (
     Balance,
     Height,
     Max,
+    Min,
     Node,
     RotateLeft,
     RotateRight,
@@ -39,6 +41,7 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(push_node.R)
         self.assertEqual(push_node.sum, 1)
         self.assertEqual(push_node.max, 1)
+        self.assertEqual(push_node.min, 1)
         self.assertEqual(push_node.height, 0)
         self.assertEqual(push_node.balance, 0)
 
@@ -52,7 +55,8 @@ class NodeTest(unittest.TestCase):
         self.assertIsNone(pop_node.L)
         self.assertIsNone(pop_node.R)
         self.assertEqual(pop_node.sum, -1)
-        self.assertEqual(pop_node.max, 0)
+        self.assertEqual(pop_node.max, -1)
+        self.assertEqual(pop_node.min, -1)
         self.assertEqual(pop_node.height, 0)
         self.assertEqual(pop_node.balance, 0)
 
@@ -77,7 +81,18 @@ class NodeTest(unittest.TestCase):
         )
         node.max = 10
         self.assertEqual(Max(node), 10)
-        self.assertEqual(Max(None), 0)
+        self.assertEqual(Max(None), -inf)
+
+    def test_min(self):
+        self.assertRaises(TypeError, lambda: Min("invalid"))
+
+        node = Node(
+            key=1,
+            operation=Operation(type=-1),
+        )
+        node.min = 10
+        self.assertEqual(Min(node), 10)
+        self.assertEqual(Min(None), inf)
 
     def test_type(self):
         self.assertRaises(TypeError, lambda: Type(None))
@@ -123,6 +138,7 @@ class NodeTest(unittest.TestCase):
         L = Mock(spec=Node)
         L.sum = 4
         L.max = 3
+        L.min = 2
         L.min_key = 2
         L.height = 4
         node.L = L
@@ -130,6 +146,7 @@ class NodeTest(unittest.TestCase):
         R = Mock(spec=Node)
         R.sum = -5
         R.max = 8
+        R.min = -1
         R.min_key = 10
         R.height = 5
         node.R = R
@@ -137,6 +154,7 @@ class NodeTest(unittest.TestCase):
         Update(node)
         self.assertEqual(node.sum, 0)
         self.assertEqual(node.max, 13)
+        self.assertEqual(node.min, 2)
         self.assertEqual(node.min_key, 2)
         self.assertEqual(node.height, 6)
         self.assertEqual(node.balance, 1)
@@ -152,6 +170,7 @@ class NodeTest(unittest.TestCase):
         R = Mock(spec=Node)
         R.sum = 5
         R.max = 2
+        R.min = -2
         R.min_key = 14
         R.height = 2
         node.R = R
@@ -159,6 +178,7 @@ class NodeTest(unittest.TestCase):
         Update(node)
         self.assertEqual(node.sum, 4)
         self.assertEqual(node.max, 1)
+        self.assertEqual(node.min, -3)
         self.assertEqual(node.min_key, 10)
         self.assertEqual(node.height, 3)
         self.assertEqual(node.balance, 3)
@@ -174,6 +194,7 @@ class NodeTest(unittest.TestCase):
         L = Mock(spec=Node)
         L.sum = 10
         L.max = 11
+        L.min = 1
         L.min_key = 2
         L.height = 4
         node.L = L
@@ -181,6 +202,7 @@ class NodeTest(unittest.TestCase):
         Update(node)
         self.assertEqual(node.sum, 9)
         self.assertEqual(node.max, 11)
+        self.assertEqual(node.min, 1)
         self.assertEqual(node.min_key, 2)
         self.assertEqual(node.height, 5)
         self.assertEqual(node.balance, -5)
