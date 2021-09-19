@@ -87,3 +87,31 @@ def Update(node: Node):
 
     node.height = max(Height(node.L), Height(node.R)) + 1
     node.balance = Height(node.R) - Height(node.L)
+
+
+def RotateRight(node: Node) -> Node:
+    #          x               y
+    #        / |             / |
+    #       y  T3   =>     T1  x
+    #     / |                / |
+    #   T1  T2             T2  T3
+
+    if not isinstance(node, Node):
+        raise TypeError("node is not a node")
+
+    if node.L is None:
+        return node
+
+    x = node
+    y = node.L
+    t2 = y.R
+    t3 = x.R
+
+    y.R = x
+    x.L = t2
+    x.R = t3
+
+    Update(x)
+    Update(y)
+
+    return y
