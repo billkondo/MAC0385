@@ -1,4 +1,5 @@
 import unittest
+from time import process_time
 
 from retroactive_stack.bst.avl.avl import AVL
 from retroactive_stack.interface import (
@@ -90,3 +91,24 @@ class ReatroactiveStackTest(unittest.TestCase):
             Delete(stack_avl, time)
 
             compare(time)
+
+    def test_avl_stress(self):
+        start_time = process_time()
+        time_limit = 2.0
+
+        stack = NewStack(AVL())
+        for i in range(0, 10000):
+            AddPush(stack, i, i)
+
+            if process_time() - start_time > time_limit:
+                raise TimeoutError("Time limit exceeded")
+
+        for i in range(0, 10000):
+            Delete(stack, i)
+
+            if process_time() - start_time > time_limit:
+                raise TimeoutError("Time limit exceeded")
+
+        duration = process_time() - start_time
+
+        self.assertLessEqual(duration, time_limit)
