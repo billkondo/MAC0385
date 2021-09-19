@@ -57,7 +57,10 @@ def Find(node: Node, key: int, left_sum: int, top: int) -> Node:
     if node is None:
         return None
 
-    if left_sum + node.max < top or key < node.min_key:
+    R_top = left_sum + node.max
+    L_top = left_sum + node.min
+
+    if top < L_top or R_top < top or key < node.min_key:
         return None
 
     candidate = Find(node.R, key, left_sum + Sum(node.L) + Type(node), top)
