@@ -1,16 +1,19 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class CurrentHeap(ABC):
+    @abstractmethod
     def insert(self, key: int, time: int):
         pass
 
     def delete(self, key: int):
         pass
 
+    @abstractmethod
     def min(self, time: int) -> int:
         pass
 
+    @abstractmethod
     def print(self) -> str:
         pass
 
