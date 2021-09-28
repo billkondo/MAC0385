@@ -37,6 +37,21 @@ class TestOperation(unittest.TestCase):
                 key="123",
             ),
         )
+        self.assertRaises(
+            ValueError,
+            lambda: Operation(
+                time=2,
+                type=0,
+            ),
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: Operation(
+                time=2,
+                type=-1,
+                key=20,
+            ),
+        )
 
         operation = Operation(
             time=15,

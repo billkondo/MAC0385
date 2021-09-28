@@ -17,6 +17,14 @@ class Operation:
         if key is not None and not isinstance(key, int):
             raise TypeError("key in not a int")
 
+        if type != -1 and key is None:
+            raise ValueError(
+                "insert operation(type = 1 or type = 0) has empty key"
+            )
+
+        if type == -1 and key is not None:
+            raise ValueError("delete operation(type = -1) has non-empty key")
+
         self.time: int = time
         self.key: int = key
         self.type: int = type
