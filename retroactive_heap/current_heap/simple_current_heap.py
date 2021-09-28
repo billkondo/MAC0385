@@ -1,7 +1,7 @@
-import math
 from typing import List
 
-from retroactive_heap.current_heap.current_heap import CurrentHeap, Node
+from retroactive_heap.current_heap.current_heap import CurrentHeap
+from retroactive_heap.current_heap.node import Node
 
 
 class SimpleCurrentHeap(CurrentHeap):
@@ -15,14 +15,17 @@ class SimpleCurrentHeap(CurrentHeap):
     def delete(self, key: int):
         self.nodes = [node for node in self.nodes if node.key != key]
 
-    def min(self, time: int) -> int:
-        min_key = math.inf
+    def min(self, time: int) -> Node:
+        min_node: Node = None
 
         for node in self.nodes:
-            if node.time <= time:
-                min_key = min(min_key, node.key)
+            if node.time > time:
+                continue
 
-        return min_key
+            if min_node is None or min_node.key > node.key:
+                min_node = node
+
+        return min_node
 
     def print(self) -> str:
         heap = ""

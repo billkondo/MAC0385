@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from retroactive_heap.current_heap.node import Node
+
 
 class CurrentHeap(ABC):
     @abstractmethod
@@ -10,21 +12,9 @@ class CurrentHeap(ABC):
         pass
 
     @abstractmethod
-    def min(self, time: int) -> int:
+    def min(self, time: int) -> Node:
         pass
 
     @abstractmethod
     def print(self) -> str:
         pass
-
-
-class Node:
-    def __init__(self, key=None, time=None):
-        if not isinstance(key, int):
-            raise TypeError("key is not a int")
-
-        if not isinstance(time, int):
-            raise TypeError("time is not a int")
-
-        self.key: int = key
-        self.time: int = time
