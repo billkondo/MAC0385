@@ -5,7 +5,7 @@ from retroactive_heap.operations_bst.operation import Operation
 
 class BST(ABC):
     @abstractmethod
-    def insert(self, time: int = None, type: int = None, key: int = None):
+    def insert(self, time: int, type: int, key: int = None):
         pass
 
     @abstractclassmethod

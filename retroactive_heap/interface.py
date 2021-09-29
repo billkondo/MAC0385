@@ -11,3 +11,32 @@ def NewHeap(
         current_heap=current_heap,
         operations_bst=operations_bst,
     )
+
+
+def AddInsert(heap: Heap, time: int, key: int):
+    previous_bridge_time = heap.operations_bst.previous_bridge_time(time)
+    operation = heap.operations_bst.max(previous_bridge_time)
+
+    if operation is None or operation.key < key:
+        heap.operations_bst.insert(time, 0, key)
+        heap.current_heap.insert(key, time)
+    else:
+        heap.operations_bst.insert(time, 1, key)
+
+        heap.current_heap.insert(operation.key, operation.time)
+        heap.operations_bst.delete(operation.key)
+        heap.operations_bst.insert(operation.time, 0, operation.key)
+
+
+def AddDeleteMin(heap: Heap, time: int):
+    next_bridge_time = heap.operations_bst.next_bridge_time(time)
+    minimum_node = heap.current_heap.min(next_bridge_time)
+
+    if minimum_node is None or minimum_node.time > time:
+        raise RuntimeError(f"heap is empty at time {time}")
+
+    heap.operations_bst.insert(time, -1)
+
+    heap.current_heap.delete(minimum_node.key)
+    heap.operations_bst.delete(minimum_node.time)
+    heap.operations_bst.insert(minimum_node.time, +1, minimum_node.key)
