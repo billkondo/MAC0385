@@ -20,6 +20,10 @@ class BST(ABC):
     def next_bridge_time(self, time: int) -> int:
         pass
 
+    @abstractmethod
+    def find(self, time: int) -> Operation:
+        pass
+
     @abstractclassmethod
     def max(self, time: int) -> Operation:
         pass

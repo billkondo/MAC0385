@@ -68,6 +68,10 @@ class TestSimpleBST(unittest.TestCase):
         bst.insert(time=6, type=-1)
         bst.insert(time=7, key=4, type=+1)
 
+        self.assertEqual(bst.find(3).key, 1)
+        self.assertEqual(bst.find(6).type, -1)
+        self.assertEqual(bst.find(7).key, 4)
+
         self.assertEqual(bst.previous_bridge_time(1), -math.inf)
         self.assertEqual(bst.next_bridge_time(1), 2)
 

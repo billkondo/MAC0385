@@ -24,6 +24,13 @@ class SimpleBST(BST):
             operation for operation in self.bst if operation.time != time
         ]
 
+    def find(self, time: int):
+        for operation in self.bst:
+            if operation.time == time:
+                return operation
+
+        return None
+
     def previous_bridge_time(self, time: int) -> int:
         bridge_time = -math.inf
 
