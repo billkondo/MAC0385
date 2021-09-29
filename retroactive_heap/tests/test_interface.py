@@ -3,7 +3,7 @@ import unittest
 from retroactive_heap.current_heap.current_heap import CurrentHeap
 from retroactive_heap.current_heap.simple_current_heap import SimpleCurrentHeap
 from retroactive_heap.heap import Heap
-from retroactive_heap.interface import AddDeleteMin, AddInsert, NewHeap
+from retroactive_heap.interface import AddDeleteMin, AddInsert, Delete, NewHeap
 from retroactive_heap.operations_bst.bst import BST
 from retroactive_heap.operations_bst.simple_bst import SimpleBST
 
@@ -66,3 +66,28 @@ class TestInterface(unittest.TestCase):
         AddInsert(heap, 0, 10)
         AddDeleteMin(heap, 1)
         self.assertRaises(RuntimeError, lambda: AddDeleteMin(heap, 5))
+
+    def test_delete(self):
+        heap = Heap()
+
+        self.assertRaises(RuntimeError, lambda: Delete(heap, 0))
+
+        AddInsert(heap, 1, 1)
+        AddInsert(heap, 2, 2)
+        AddInsert(heap, 3, 3)
+        AddDeleteMin(heap, 4)
+        self.assertEqual(heap.current_heap.print(), "2 3")
+
+        Delete(heap, 1)
+        self.assertEqual(heap.current_heap.print(), "3")
+
+        Delete(heap, 4)
+        self.assertEqual(heap.current_heap.print(), "2 3")
+
+        Delete(heap, 3)
+        self.assertEqual(heap.current_heap.print(), "2")
+
+        AddDeleteMin(heap, 4)
+        self.assertEqual(heap.current_heap.print(), "")
+
+        self.assertRaises(RuntimeError, lambda: Delete(heap, 2))
