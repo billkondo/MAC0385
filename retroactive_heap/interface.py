@@ -1,3 +1,5 @@
+import math
+
 from retroactive_heap.current_heap.current_heap import CurrentHeap
 from retroactive_heap.heap import Heap
 from retroactive_heap.operations_bst.bst import BST
@@ -30,9 +32,9 @@ def AddInsert(heap: Heap, time: int, key: int):
 
 def AddDeleteMin(heap: Heap, time: int):
     next_bridge_time = heap.operations_bst.next_bridge_time(time)
-    minimum_node = heap.current_heap.min(next_bridge_time)
+    minimum_node = heap.current_heap.min(next_bridge_time - 1)
 
-    if minimum_node is None or minimum_node.time > time:
+    if minimum_node is None:
         raise RuntimeError(f"heap is empty at time {time}")
 
     heap.operations_bst.insert(time, -1)
@@ -62,7 +64,7 @@ def Delete(heap: Heap, time: int):
             heap.current_heap.delete(time)
         else:
             next_bridge_time = heap.operations_bst.next_bridge_time(time)
-            minimum_node = heap.current_heap.min(next_bridge_time)
+            minimum_node = heap.current_heap.min(next_bridge_time - 1)
 
             if minimum_node is None:
                 raise RuntimeError(
@@ -74,3 +76,12 @@ def Delete(heap: Heap, time: int):
             heap.operations_bst.insert(minimum_node.time, +1, minimum_node.key)
 
         heap.operations_bst.delete(time)
+
+
+def Min(heap: Heap) -> int:
+    min_node = heap.current_heap.min(math.inf)
+
+    if min_node is not None:
+        return min_node.key
+
+    return min_node
