@@ -85,3 +85,7 @@ def Min(heap: Heap) -> int:
         return min_node.key
 
     return min_node
+
+
+def Print(heap: Heap) -> str:
+    return heap.current_heap.print()

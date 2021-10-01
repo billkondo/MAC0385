@@ -9,6 +9,7 @@ from retroactive_heap.interface import (
     Delete,
     Min,
     NewHeap,
+    Print,
 )
 from retroactive_heap.operations_bst.bst import BST
 from retroactive_heap.operations_bst.simple_bst import SimpleBST
@@ -36,14 +37,14 @@ class TestInterface(unittest.TestCase):
         AddInsert(heap, 2, 5)
         AddDeleteMin(heap, 3)
         AddInsert(heap, 4, 8)
-        self.assertEqual(heap.current_heap.print(), "5 8")
+        self.assertEqual(Print(heap), "5 8")
         AddDeleteMin(heap, 6)
-        self.assertEqual(heap.current_heap.print(), "8")
+        self.assertEqual(Print(heap), "8")
         AddInsert(heap, 7, 4)
         AddInsert(heap, 8, 6)
-        self.assertEqual(heap.current_heap.print(), "4 6 8")
+        self.assertEqual(Print(heap), "4 6 8")
         AddDeleteMin(heap, 9)
-        self.assertEqual(heap.current_heap.print(), "6 8")
+        self.assertEqual(Print(heap), "6 8")
         AddInsert(heap, 10, 7)
         AddInsert(heap, 11, 3)
         AddDeleteMin(heap, 12)
@@ -52,16 +53,16 @@ class TestInterface(unittest.TestCase):
         AddDeleteMin(heap, 16)
         AddInsert(heap, 17, 9)
 
-        self.assertEqual(heap.current_heap.print(), "7 8 9")
+        self.assertEqual(Print(heap), "7 8 9")
 
         AddDeleteMin(heap, 5)
-        self.assertEqual(heap.current_heap.print(), "7 9")
+        self.assertEqual(Print(heap), "7 9")
 
         AddInsert(heap, 14, 0)
-        self.assertEqual(heap.current_heap.print(), "2 7 9")
+        self.assertEqual(Print(heap), "2 7 9")
 
         AddDeleteMin(heap, 11)
-        self.assertEqual(heap.current_heap.print(), "2 9")
+        self.assertEqual(Print(heap), "2 9")
 
     def test_add_delete_min_error(self):
         heap = Heap()
@@ -82,19 +83,19 @@ class TestInterface(unittest.TestCase):
         AddInsert(heap, 2, 2)
         AddInsert(heap, 3, 3)
         AddDeleteMin(heap, 4)
-        self.assertEqual(heap.current_heap.print(), "2 3")
+        self.assertEqual(Print(heap), "2 3")
 
         Delete(heap, 1)
-        self.assertEqual(heap.current_heap.print(), "3")
+        self.assertEqual(Print(heap), "3")
 
         Delete(heap, 4)
-        self.assertEqual(heap.current_heap.print(), "2 3")
+        self.assertEqual(Print(heap), "2 3")
 
         Delete(heap, 3)
-        self.assertEqual(heap.current_heap.print(), "2")
+        self.assertEqual(Print(heap), "2")
 
         AddDeleteMin(heap, 4)
-        self.assertEqual(heap.current_heap.print(), "")
+        self.assertEqual(Print(heap), "")
 
         self.assertRaises(RuntimeError, lambda: Delete(heap, 2))
 
@@ -108,11 +109,11 @@ class TestInterface(unittest.TestCase):
         AddDeleteMin(heap, 5)
         AddInsert(heap, 6, 0)
 
-        self.assertEqual(heap.current_heap.print(), "0 3")
+        self.assertEqual(Print(heap), "0 3")
         self.assertEqual(Min(heap), 0)
 
         Delete(heap, 2)
-        self.assertEqual(heap.current_heap.print(), "0")
+        self.assertEqual(Print(heap), "0")
         self.assertEqual(Min(heap), 0)
 
     def test_min(self):
@@ -123,17 +124,17 @@ class TestInterface(unittest.TestCase):
         AddInsert(heap, 10, 10)
         AddInsert(heap, 15, 8)
 
-        self.assertEqual(heap.current_heap.print(), "3 5 8 10")
+        self.assertEqual(Print(heap), "3 5 8 10")
         self.assertEqual(Min(heap), 3)
 
         AddDeleteMin(heap, 3)
-        self.assertEqual(heap.current_heap.print(), "3 8 10")
+        self.assertEqual(Print(heap), "3 8 10")
         self.assertEqual(Min(heap), 3)
 
         AddDeleteMin(heap, 8)
-        self.assertEqual(heap.current_heap.print(), "8 10")
+        self.assertEqual(Print(heap), "8 10")
         self.assertEqual(Min(heap), 8)
 
         Delete(heap, 8)
-        self.assertEqual(heap.current_heap.print(), "3 8 10")
+        self.assertEqual(Print(heap), "3 8 10")
         self.assertEqual(Min(heap), 3)
