@@ -47,7 +47,7 @@ class TestSimpleBST(unittest.TestCase):
         self.assertEqual(bst.next_bridge_time(11), 12)
         self.assertEqual(bst.next_bridge_time(12), 12)
 
-        self.assertEqual(bst.max(1).key, 5)
+        self.assertEqual(bst.operation_with_greatest_key_after_time(1).key, 5)
 
         bst.delete(2)
         bst.delete(4)
@@ -81,10 +81,10 @@ class TestSimpleBST(unittest.TestCase):
         self.assertEqual(bst.previous_bridge_time(7), 6)
         self.assertEqual(bst.next_bridge_time(7), math.inf)
 
-        self.assertEqual(bst.max(5).key, 4)
+        self.assertEqual(bst.operation_with_greatest_key_after_time(5).key, 4)
 
         bst.delete(7)
 
-        self.assertEqual(bst.max(1).key, 3)
-        self.assertEqual(bst.max(2).key, 2)
-        self.assertEqual(bst.max(6), None)
+        self.assertEqual(bst.operation_with_greatest_key_after_time(1).key, 3)
+        self.assertEqual(bst.operation_with_greatest_key_after_time(2).key, 2)
+        self.assertEqual(bst.operation_with_greatest_key_after_time(6), None)

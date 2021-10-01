@@ -17,7 +17,9 @@ def NewHeap(
 
 def AddInsert(heap: Heap, time: int, key: int):
     previous_bridge_time = heap.operations_bst.previous_bridge_time(time)
-    operation = heap.operations_bst.max(previous_bridge_time)
+    operation = heap.operations_bst.operation_with_greatest_key_after_time(
+        previous_bridge_time
+    )
 
     if operation is None or operation.key < key:
         heap.operations_bst.insert(time, 0, key)
@@ -54,7 +56,9 @@ def Delete(heap: Heap, time: int):
         heap.operations_bst.delete(time)
 
         previous_bridge_time = heap.operations_bst.previous_bridge_time(time)
-        operation = heap.operations_bst.max(previous_bridge_time)
+        operation = heap.operations_bst.operation_with_greatest_key_after_time(
+            previous_bridge_time
+        )
 
         heap.current_heap.insert(operation.key, operation.time)
         heap.operations_bst.delete(operation.key)

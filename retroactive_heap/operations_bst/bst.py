@@ -1,4 +1,4 @@
-from abc import ABC, abstractclassmethod, abstractmethod
+from abc import ABC, abstractmethod
 
 from retroactive_heap.operations_bst.operation import Operation
 
@@ -8,15 +8,15 @@ class BST(ABC):
     def insert(self, time: int, type: int, key: int = None):
         pass
 
-    @abstractclassmethod
+    @abstractmethod
     def delete(self, time: int):
         pass
 
-    @abstractclassmethod
+    @abstractmethod
     def previous_bridge_time(self, time: int) -> int:
         pass
 
-    @abstractclassmethod
+    @abstractmethod
     def next_bridge_time(self, time: int) -> int:
         pass
 
@@ -24,6 +24,6 @@ class BST(ABC):
     def find(self, time: int) -> Operation:
         pass
 
-    @abstractclassmethod
-    def max(self, time: int) -> Operation:
+    @abstractmethod
+    def operation_with_greatest_key_after_time(self, time: int) -> Operation:
         pass

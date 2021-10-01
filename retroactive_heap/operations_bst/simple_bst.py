@@ -55,7 +55,7 @@ class SimpleBST(BST):
 
         return bridge_time
 
-    def max(self, time: int) -> Operation:
+    def operation_with_greatest_key_after_time(self, time: int) -> Operation:
         max_operation: Operation = None
 
         for operation in self.bst:
