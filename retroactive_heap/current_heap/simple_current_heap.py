@@ -10,7 +10,7 @@ class SimpleCurrentHeap(CurrentHeap):
 
     def insert(self, key: int, time: int):
         self.nodes.append(Node(key, time))
-        self.nodes.sort(key=lambda node: node.key)
+        self.nodes.sort(key=lambda node: node.time)
 
     def delete(self, key: int):
         self.nodes = [node for node in self.nodes if node.key != key]

@@ -8,6 +8,7 @@ class CurrentHeap(ABC):
     def insert(self, key: int, time: int):
         pass
 
+    @abstractmethod
     def delete(self, key: int):
         pass
 

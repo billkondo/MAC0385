@@ -1,4 +1,5 @@
 import math
+from typing import List
 
 from retroactive_heap.current_heap.current_heap import CurrentHeap
 from retroactive_heap.heap import Heap
@@ -92,4 +93,15 @@ def Min(heap: Heap) -> int:
 
 
 def Print(heap: Heap) -> str:
-    return heap.current_heap.print()
+    # CurrentHeap keys are ordered by insertion time
+    # Print return a sorted list of keys
+
+    key_list_str = heap.current_heap.print()
+
+    if key_list_str == "":
+        return key_list_str
+
+    key_list: List[int] = list(map(lambda x: int(x), key_list_str.split(" ")))
+    key_list.sort()
+
+    return " ".join(list(map(lambda x: str(x), key_list)))
