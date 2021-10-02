@@ -1,11 +1,20 @@
 import unittest
 
+from parameterized import parameterized_class
+from retroactive_heap.current_heap.avl_current_heap import AVLCurrentHeap
+from retroactive_heap.current_heap.current_heap import CurrentHeap
 from retroactive_heap.current_heap.simple_current_heap import SimpleCurrentHeap
 
 
-class TestSimpleCurrentHeap(unittest.TestCase):
-    def test_simple_current_heap(self):
-        heap = SimpleCurrentHeap()
+@parameterized_class(
+    [
+        {"CurrentHeap": SimpleCurrentHeap},
+        {"CurrentHeap": AVLCurrentHeap},
+    ]
+)
+class TestCurrentHeap(unittest.TestCase):
+    def test_current_heap(self):
+        heap: CurrentHeap = self.CurrentHeap()
 
         heap.insert(10, 20)
         heap.insert(15, 10)

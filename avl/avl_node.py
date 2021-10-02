@@ -36,6 +36,6 @@ def Height(node: AVLNode) -> int:
         return -1
 
     if not isinstance(node, AVLNode):
-        raise TypeError('node is not a AVLNode')
+        raise TypeError("node is not a AVLNode")
 
     return node.height

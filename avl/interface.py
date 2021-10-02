@@ -1,3 +1,5 @@
+from typing import List
+
 from avl.avl_node import AVLNode
 
 
@@ -146,3 +148,24 @@ def Balance(node: AVLNode) -> AVLNode:
         return RotateLeft(node)
 
     return node
+
+
+def Print(node: AVLNode) -> str:
+    if node is None:
+        return ""
+
+    if not isinstance(node, AVLNode):
+        raise TypeError("node is not a AVLNode")
+
+    def _Print(node: AVLNode, list: List[str]):
+        if node is None:
+            return
+
+        _Print(node.L, list)
+        list.append(str(node.key))
+        _Print(node.R, list)
+
+    node_list = []
+    _Print(node, node_list)
+
+    return " ".join(node_list)

@@ -9,6 +9,7 @@ from avl.interface import (
     Find,
     Insert,
     Min,
+    Print,
     RotateLeft,
     RotateRight,
 )
@@ -279,3 +280,14 @@ class TestInterface(unittest.TestCase):
 
             self.assertEqual(count(root), size)
             check_tree(root)
+
+    def test_print(self):
+        self.assertRaises(TypeError, lambda: Print("invalid"))
+
+        root = Insert(None, AVLNode(10))
+        root = Insert(root, AVLNode(5))
+        root = Insert(root, AVLNode(15))
+        root = Insert(root, AVLNode(20))
+        root = Insert(root, AVLNode(13))
+
+        self.assertEqual(Print(root), "5 10 13 15 20")
