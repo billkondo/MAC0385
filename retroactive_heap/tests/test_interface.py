@@ -123,6 +123,8 @@ class TestInterface(unittest.TestCase):
         self.assertEqual(Min(self.heap), 0)
 
     def test_min(self):
+        self.assertEqual(Min(self.heap), None)
+
         AddInsert(self.heap, 1, 5)
         AddInsert(self.heap, 5, 3)
         AddInsert(self.heap, 10, 10)

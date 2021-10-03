@@ -133,7 +133,7 @@ def PreviousBridgeTime(node: AVLBSTNode, left_sum: int, time: int) -> int:
     if candidate != -inf:
         return candidate
 
-    if node.operation.time <= time and left_sum + Sum(node.L) + node.type == 0:
+    if node.time <= time and left_sum + Sum(node.L) + node.type == 0:
         return node.time
 
     return PreviousBridgeTime(node.L, left_sum, time)
@@ -156,7 +156,7 @@ def NextBridgeTime(node: AVLBSTNode, left_sum: int, time: int) -> int:
     if candidate != inf:
         return candidate
 
-    if node.operation.time >= time and left_sum + Sum(node.L) + node.type == 0:
+    if node.time >= time and left_sum + Sum(node.L) + node.type == 0:
         return node.time
 
     return NextBridgeTime(node.R, left_sum + Sum(node.L) + node.type, time)
@@ -176,7 +176,7 @@ def OperationWithGreatestKeyAfterTime(
     if time <= MinTime(node):
         return MaxOperation(node)
 
-    if node.operation.time < time:
+    if node.time < time:
         return OperationWithGreatestKeyAfterTime(
             node.R, left_sum + Sum(node.L) + node.type, time
         )

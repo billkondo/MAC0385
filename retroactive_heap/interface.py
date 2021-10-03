@@ -29,7 +29,7 @@ def AddInsert(heap: Heap, time: int, key: int):
         heap.operations_bst.insert(time, 1, key)
 
         heap.current_heap.insert(operation.key, operation.time)
-        heap.operations_bst.delete(operation.key)
+        heap.operations_bst.delete(operation.time)
         heap.operations_bst.insert(operation.time, 0, operation.key)
 
 
@@ -62,11 +62,11 @@ def Delete(heap: Heap, time: int):
         )
 
         heap.current_heap.insert(operation.key, operation.time)
-        heap.operations_bst.delete(operation.key)
+        heap.operations_bst.delete(operation.time)
         heap.operations_bst.insert(operation.time, 0, operation.key)
     else:
         if operation.type == 0:
-            heap.current_heap.delete(time)
+            heap.current_heap.delete(operation.key)
         else:
             next_bridge_time = heap.operations_bst.next_bridge_time(time)
             minimum_node = heap.current_heap.min(next_bridge_time - 1)
@@ -89,7 +89,7 @@ def Min(heap: Heap) -> int:
     if min_node is not None:
         return min_node.key
 
-    return min_node
+    return None
 
 
 def Print(heap: Heap) -> str:
