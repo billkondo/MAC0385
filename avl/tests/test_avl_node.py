@@ -13,6 +13,7 @@ class TestAVLNode(unittest.TestCase):
 
         self.assertEqual(node.key, 5)
         self.assertEqual(node.min_key, 5)
+        self.assertEqual(node.max_key, 5)
         self.assertEqual(node.L, None)
         self.assertEqual(node.R, None)
         self.assertEqual(node.height, 0)
@@ -28,20 +29,23 @@ class TestAVLNode(unittest.TestCase):
         self.assertEqual(Height(node), 5)
 
     def test_update(self):
-        node = AVLNode(key=10)
+        node = AVLNode(key=15)
 
         L = Mock(spec=AVLNode)
         L.min_key = 2
+        L.max_key = 3
         L.height = 4
         node.L = L
 
         R = Mock(spec=AVLNode)
         R.min_key = 10
+        R.max_key = 12
         R.height = 5
         node.R = R
 
         node.update()
         self.assertEqual(node.min_key, 2)
+        self.assertEqual(node.max_key, 15)
         self.assertEqual(node.height, 6)
         self.assertEqual(node.balance, 1)
 
@@ -51,11 +55,13 @@ class TestAVLNode(unittest.TestCase):
         R = Mock(spec=AVLNode)
 
         R.min_key = 14
+        R.max_key = 15
         R.height = 2
         node.R = R
 
         node.update()
         self.assertEqual(node.min_key, 10)
+        self.assertEqual(node.max_key, 15)
         self.assertEqual(node.height, 3)
         self.assertEqual(node.balance, 3)
 
@@ -64,11 +70,13 @@ class TestAVLNode(unittest.TestCase):
 
         L = Mock(spec=AVLNode)
         L.min_key = 2
+        L.max_key = 12
         L.height = 4
         node.L = L
 
         node.update()
         self.assertEqual(node.min_key, 2)
+        self.assertEqual(node.max_key, 12)
         self.assertEqual(node.height, 5)
         self.assertEqual(node.balance, -5)
 
@@ -80,5 +88,6 @@ class TestAVLNode(unittest.TestCase):
 
         node.update()
         self.assertEqual(node.min_key, 10)
+        self.assertEqual(node.max_key, 10)
         self.assertEqual(node.height, 0)
         self.assertEqual(node.balance, 0)
