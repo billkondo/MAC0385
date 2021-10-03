@@ -9,3 +9,5 @@ class TestNode(unittest.TestCase):
 
         self.assertEqual(node.left, 10)
         self.assertEqual(node.right, 15)
+        self.assertIsNone(node.L)
+        self.assertIsNone(node.R)

@@ -8,6 +8,9 @@ class Node:
         self.segment = Segment(left, right)
         self.segments: List[Segment] = []
 
+        self.L: Node = None
+        self.R: Node = None
+
     @property
     def left(self):
         return self.segment.left
