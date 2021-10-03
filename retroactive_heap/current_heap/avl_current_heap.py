@@ -14,6 +14,9 @@ class AVLCurrentHeap(CurrentHeap):
         self.key_insert_time[inf] = inf
 
     def insert(self, key: int, time: int):
+        if self.key_insert_time.get(key) is not None:
+            raise ValueError("repeated key")
+
         self.key_insert_time[key] = time
         self.root = Insert(
             self.root,

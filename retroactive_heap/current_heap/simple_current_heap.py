@@ -9,6 +9,10 @@ class SimpleCurrentHeap(CurrentHeap):
         self.nodes: List[Node] = []
 
     def insert(self, key: int, time: int):
+        for node in self.nodes:
+            if node.key == key:
+                raise ValueError("repeated key")
+
         self.nodes.append(Node(key, time))
         self.nodes.sort(key=lambda node: node.time)
 
