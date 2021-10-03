@@ -11,6 +11,7 @@ class AVLCurrentHeap(CurrentHeap):
     def __init__(self):
         self.root: CurrentHeapAVLNode = None
         self.key_insert_time: Dict[int, int] = {}
+        self.key_insert_time[inf] = inf
 
     def insert(self, key: int, time: int):
         self.key_insert_time[key] = time
@@ -51,9 +52,8 @@ class CurrentHeapAVLNode(AVLNode):
     def update(self):
         super().update()
         self.min_time = self.min_key
-        self.max_time = max(
-            MaxTime(self.L), max(self.max_time, MaxTime(self.R))
-        )
+        self.max_time = self.max_key
+
         self.min_node_key = min(
             MinNodeKey(self.L), min(self.node.key, MinNodeKey(self.R))
         )
@@ -61,6 +61,10 @@ class CurrentHeapAVLNode(AVLNode):
     @property
     def time(self):
         return self.node.time
+
+    @property
+    def node_key(self):
+        return self.node.key
 
 
 def MinNodeKey(node: CurrentHeapAVLNode) -> int:
@@ -73,16 +77,6 @@ def MinNodeKey(node: CurrentHeapAVLNode) -> int:
     return node.min_node_key
 
 
-def MaxTime(node: CurrentHeapAVLNode) -> int:
-    if node is None:
-        return 0
-
-    if not isinstance(node, CurrentHeapAVLNode):
-        raise TypeError("node is not a CurrentHeapAVLNode")
-
-    return node.max_time
-
-
 def Min(node: CurrentHeapAVLNode, time: int) -> int:
     if node is None:
         return inf
@@ -93,10 +87,13 @@ def Min(node: CurrentHeapAVLNode, time: int) -> int:
     if time < node.min_time:
         return inf
 
-    if MaxTime(node) <= time:
+    if node.max_time <= time:
         return MinNodeKey(node)
 
-    return min(Min(node.L, time), Min(node.R, time))
+    if time < node.time:
+        return Min(node.L, time)
+
+    return min(Min(node.L, time), min(node.node_key, Min(node.R, time)))
 
 
 def Print(node: CurrentHeapAVLNode) -> str:
@@ -111,7 +108,7 @@ def Print(node: CurrentHeapAVLNode) -> str:
             return
 
         _Print(node.L, list)
-        list.append(str(node.node.key))
+        list.append(str(node.node_key))
         _Print(node.R, list)
 
     node_list = []
