@@ -1,12 +1,21 @@
 import math
 import unittest
 
+from parameterized import parameterized_class
+from retroactive_heap.operations_bst.avl_bst import AVLBST
+from retroactive_heap.operations_bst.bst import BST
 from retroactive_heap.operations_bst.simple_bst import SimpleBST
 
 
+@parameterized_class(
+    [
+        {"BST": SimpleBST},
+        {"BST": AVLBST},
+    ]
+)
 class TestSimpleBST(unittest.TestCase):
     def test_simple_bst_01(self):
-        bst = SimpleBST()
+        bst: BST = self.BST()
 
         bst.insert(time=1, key=4, type=+1)
         bst.insert(time=2, key=3, type=+1)
@@ -58,7 +67,7 @@ class TestSimpleBST(unittest.TestCase):
         self.assertEqual(bst.next_bridge_time(3), 7)
 
     def test_simple_bst_02(self):
-        bst = SimpleBST()
+        bst = self.BST()
 
         bst.insert(time=1, key=3, type=+1)
         bst.insert(time=2, type=-1)
