@@ -97,12 +97,16 @@ class StaticSegmentTree:
         index = bisect_left(self.endpoints, x) + 1
 
         if self.endpoints_map.get(x) is not None:
-            return self.__find__(
-                self.root,
-                1,
-                self.n,
-                index,
-                x,
+            return list(
+                set(
+                    self.__find__(
+                        self.root,
+                        1,
+                        self.n,
+                        index,
+                        x,
+                    ),
+                )
             )
 
         return list(
