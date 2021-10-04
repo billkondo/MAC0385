@@ -123,3 +123,15 @@ class StaticSegmentTree:
                 ),
             )
         )
+
+    def print(self):
+        self.__print__(self.root)
+
+    def __print__(self, node: Node):
+        if node is None:
+            return
+
+        print(str(node))
+
+        self.__print__(node.L)
+        self.__print__(node.R)

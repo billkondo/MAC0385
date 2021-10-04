@@ -18,3 +18,6 @@ class Node:
     @property
     def right(self):
         return self.segment.right
+
+    def __str__(self) -> str:
+        return f"{self.segment} {self.segments}"
