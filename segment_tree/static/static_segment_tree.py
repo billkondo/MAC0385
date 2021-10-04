@@ -12,6 +12,7 @@ class StaticSegmentTree:
         self.endpoints: List[int] = []
         self.endpoints_map: Dict[int, int] = {}
         self.root: Node = None
+        self.segments: List[Segment] = segments
 
         for segment in segments:
             self.endpoints.append(segment.left)
