@@ -10,13 +10,13 @@ class CertificatesHeap:
 
     def insert(self, certificate: Certificate):
         self.heap.append(certificate)
-        self.__insert__(len(self.heap) - 1)
+        self.__up_heapify__(len(self.heap) - 1)
 
     def delete(self, index: int):
         last_index = len(self.heap) - 1
         self.__swap__(0, last_index)
         self.heap.pop()
-        self.__delete__(0)
+        self.__down_heapify__(0)
 
     def min(self) -> Certificate:
         return self.heap[0]
@@ -29,13 +29,22 @@ class CertificatesHeap:
     def empty(self) -> bool:
         return len(self.heap) == 0
 
+    def update(self, index: int, certificate: Certificate):
+        decreased = certificate < self.heap[index]
+
+        self.heap[index] = certificate
+
+        self.__up_heapify__(index) if decreased else self.__down_heapify__(
+            index
+        )
+
     def __swap__(self, index_1: int, index_2: int):
         self.heap[index_1], self.heap[index_2] = (
             self.heap[index_2],
             self.heap[index_1],
         )
 
-    def __insert__(self, index: int):
+    def __up_heapify__(self, index: int):
         if index == 0:
             return
 
@@ -44,9 +53,9 @@ class CertificatesHeap:
             return
 
         self.__swap__(parent_index, index)
-        self.__insert__(parent_index)
+        self.__up_heapify__(parent_index)
 
-    def __delete__(self, index: int):
+    def __down_heapify__(self, index: int):
         if index >= len(self.heap):
             return
 
@@ -61,10 +70,10 @@ class CertificatesHeap:
 
         if self.__get__(left_child) < self.__get__(right_child):
             self.__swap__(left_child, index)
-            return self.__delete__(left_child)
+            return self.__down_heapify__(left_child)
 
         self.__swap__(right_child, index)
-        return self.__delete__(right_child)
+        return self.__down_heapify__(right_child)
 
     def __get__(self, index: int) -> Certificate:
         if index >= len(self.heap):
