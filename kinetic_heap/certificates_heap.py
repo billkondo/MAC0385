@@ -5,6 +5,10 @@ from .certificate import Certificate
 
 
 class CertificatesHeap:
+    """
+    Certificates min-heap.
+    """
+
     def __init__(self):
         self.heap: List[Certificate] = []
         self.map_id_to_heap_index: Dict[int, int] = {}

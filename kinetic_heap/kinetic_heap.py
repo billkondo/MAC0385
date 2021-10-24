@@ -4,6 +4,12 @@ from .elements_heap import ElementsHeap
 
 
 class KineticHeap:
+    """
+    Kinetic Heap
+
+    The implementation of the kinetic heap operations is in ``ElementsHeap``.
+    """
+
     def __init__(
         self,
         id_list: List[int] = [],

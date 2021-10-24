@@ -9,6 +9,17 @@ from .utils import create_certificate
 
 
 class ElementsHeap:
+    """
+    Elements max-heap.
+
+    The elements are ordered according to their position in current_time. See
+    ``__compare_elements__``.
+
+    Every element in the heap has a ``[Certificate]`` between it and its
+    parent. If the element is the heap root, then the certificate has infinite
+    ``expiration_time``.
+    """
+
     def __init__(self):
         self.heap: List[Element] = []
         self.certificates_heap: CertificatesHeap = CertificatesHeap()
@@ -217,6 +228,9 @@ class ElementsHeap:
         return self.heap[index]
 
     def __compare_elements__(self, first: Element, second: Element) -> bool:
+        """
+        Returns ``True`` if ``first`` <= ``second``
+        """
         x1 = first.x0 + first.speed * self.current_time
         x2 = second.x0 + second.speed * self.current_time
 
