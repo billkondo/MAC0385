@@ -11,7 +11,10 @@ class CertificatesHeap:
 
     def insert(self, certificate: Certificate):
         if self.map_id_to_heap_index.get(certificate.id) is not None:
-            raise ValueError("cannot insert certificate with repeated id")
+            raise ValueError(
+                "cannot insert certificate with repeated"
+                + f"id equals {certificate.id}"
+            )
 
         self.heap.append(certificate)
         self.__update_map__(len(self.heap) - 1)

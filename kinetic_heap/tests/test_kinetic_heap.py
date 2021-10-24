@@ -32,7 +32,7 @@ class TestKineticHeap(unittest.TestCase):
 
         self.assertEqual(kinetic_heap.max(), 0)
 
-    def test_kinetic_heap(self):
+    def test_kinetic_heap_01(self):
         kinetic_heap = KineticHeap([10, 20], [5, 0], [-1, 1], 2)
 
         self.assertEqual(kinetic_heap.max(), 10)
@@ -51,3 +51,29 @@ class TestKineticHeap(unittest.TestCase):
         self.assertEqual(kinetic_heap.max(), 20)
         kinetic_heap.advance(8)
         self.assertEqual(kinetic_heap.max(), 10)
+
+    def test_kinetic_heap_02(self):
+        kinetic_heap = KineticHeap(
+            [1, 2, 3, 4],
+            [3, 10, 20, 15],
+            [5, -2, 4, -3],
+            4,
+        )
+
+        self.assertEqual(kinetic_heap.max(), 3)
+        kinetic_heap.advance(2)
+        self.assertEqual(kinetic_heap.max(), 3)
+        kinetic_heap.delete_max()
+        self.assertEqual(kinetic_heap.max(), 1)
+        kinetic_heap.delete(1)
+        self.assertEqual(kinetic_heap.max(), 4)
+        kinetic_heap.insert(5, 10, 4)
+        self.assertEqual(kinetic_heap.max(), 5)
+        kinetic_heap.insert(6, 12, -3)
+        self.assertEqual(kinetic_heap.max(), 6)
+        kinetic_heap.advance(5)
+        self.assertEqual(kinetic_heap.max(), 5)
+        kinetic_heap.delete(5)
+        self.assertEqual(kinetic_heap.max(), 6)
+        kinetic_heap.advance(7)
+        self.assertEqual(kinetic_heap.max(), 6)

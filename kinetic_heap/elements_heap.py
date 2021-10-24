@@ -15,7 +15,13 @@ class ElementsHeap:
         self.current_time: float = 0
         self.map_id_to_heap_index: Dict[int, int] = {}
 
-    def insert(self, element: Element):
+    def insert(self, id: int, x_now: float, speed: float):
+        element = Element(
+            id,
+            x_now - speed * self.current_time,
+            speed,
+        )
+
         self.heap.append(element)
 
         index = len(self.heap) - 1
@@ -123,37 +129,43 @@ class ElementsHeap:
         return sibling if sibling < len(self.heap) else None
 
     def __update_certificate_with_parent__(self, index: int):
+        expired_certificate = Certificate(
+            inf,
+            self.heap[index].id,
+        )
+
         if index == 0:
-            return self.certificates_heap.update(
-                Certificate(
-                    inf,
-                    self.heap[0].id,
-                ),
-            )
+            return self.certificates_heap.update(expired_certificate)
 
         parent_index = index // 2
+        updated_certificate = create_certificate(
+            self.heap[index],
+            self.heap[parent_index],
+        )
         self.certificates_heap.update(
-            create_certificate(
-                self.heap[index],
-                self.heap[parent_index],
-            ),
+            expired_certificate
+            if updated_certificate.expiration_time < self.current_time
+            else updated_certificate
         )
 
     def __add_parent_certificate__(self, index: int):
+        expired_certificate = Certificate(
+            inf,
+            self.heap[index].id,
+        )
+
         if index == 0:
-            return self.certificates_heap.insert(
-                Certificate(
-                    inf,
-                    self.heap[0].id,
-                )
-            )
+            return self.certificates_heap.insert(expired_certificate)
 
         parent_index = index // 2
+        added_certificate = create_certificate(
+            self.heap[index],
+            self.heap[parent_index],
+        )
         self.certificates_heap.insert(
-            create_certificate(
-                self.heap[index],
-                self.heap[parent_index],
-            ),
+            expired_certificate
+            if added_certificate.expiration_time < self.current_time
+            else added_certificate
         )
 
     def __up_heapify__(self, index: int):

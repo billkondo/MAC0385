@@ -1,7 +1,5 @@
 from typing import List
 
-from kinetic_heap.element import Element
-
 from .elements_heap import ElementsHeap
 
 
@@ -37,11 +35,9 @@ class KineticHeap:
 
     def insert(self, id: int, x_now: float, speed: float):
         self.elements_heap.insert(
-            Element(
-                id,
-                x_now,
-                speed,
-            ),
+            id,
+            x_now,
+            speed,
         )
 
     def max(self) -> int:
