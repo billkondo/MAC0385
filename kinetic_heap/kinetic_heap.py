@@ -55,5 +55,11 @@ class KineticHeap:
     def delete(self, id: int):
         self.elements_heap.delete(id)
 
-    def print() -> List[str]:
-        pass
+    def print(self) -> List[str]:
+        elements = self.elements_heap.heap
+        elements_str: List[str] = []
+
+        for element in elements:
+            elements_str.append(str(element.id))
+
+        return elements_str
