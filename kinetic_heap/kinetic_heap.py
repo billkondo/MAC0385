@@ -1,10 +1,14 @@
 from typing import List
 
+from kinetic_heap.element import Element
+
+from .elements_heap import ElementsHeap
+
 
 class KineticHeap:
     def __init__(
         self,
-        id_list: List[str] = [],
+        id_list: List[int] = [],
         x0_list: List[float] = [],
         speed_list: List[float] = [],
         n: int = 0,
@@ -21,29 +25,33 @@ class KineticHeap:
         if len(speed_list) != n:
             raise ValueError("speed_list length is not n")
 
-        self.n: int = n
-        self.id_list: List[str] = id_list
-        self.x0_list: List[float] = x0_list
-        self.speed_list: List[float] = speed_list
-        self.t = 0
+        self.elements_heap = ElementsHeap()
+        for i in range(0, n):
+            self.insert(id_list[i], x0_list[i], speed_list[i])
 
-    def advance(self, t: int):
-        pass
+    def advance(self, current_time: int):
+        self.elements_heap.advance(current_time)
 
-    def change(self, id: str, speed: float):
-        pass
+    def change(self, id: int, speed: float):
+        self.elements_heap.update(id, speed)
 
-    def insert(self, id: str, xnow: float, speed: float):
-        pass
+    def insert(self, id: int, x_now: float, speed: float):
+        self.elements_heap.insert(
+            Element(
+                id,
+                x_now,
+                speed,
+            ),
+        )
 
-    def max(self) -> str:
-        pass
+    def max(self) -> int:
+        return self.elements_heap.max().id
 
-    def delete_max() -> float:
-        pass
+    def delete_max(self) -> float:
+        self.elements_heap.delete_max()
 
-    def delete(id: str):
-        pass
+    def delete(self, id: int):
+        self.elements_heap.delete(id)
 
     def print() -> List[str]:
         pass
