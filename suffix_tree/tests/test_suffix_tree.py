@@ -55,18 +55,23 @@ class TestSuffixTree(unittest.TestCase):
 
     @parameterized.expand(
         [
-            ("abra"),
-            ("ra"),
-            ("a"),
-            ("d"),
+            ("abra", [7, 0], 2),
+            ("ra", [9, 2], 2),
+            ("a", [10, 7, 0, 3, 5], 5),
+            ("d", [6], 1),
+            ("abr", [7, 0], 2),
         ]
     )
-    def test_suffix_tree_search(self, pattern: str):
+    def test_suffix_tree_search(self, pattern: str, ocurrences: List[int], number_of_ocurrence: str):
         suffix_tree = SuffixTree("abracadabra")
 
         self.assertTrue(suffix_tree.search(pattern))
+        self.assertEqual(suffix_tree.ocurrences(pattern), ocurrences)
+        self.assertEqual(suffix_tree.number_of_ocurrences(pattern), number_of_ocurrence)
 
     def test_suffix_tree_not_found(self):
         suffix_tree = SuffixTree("abracadabra")
 
         self.assertFalse(suffix_tree.search("zebra"))
+        self.assertEqual(suffix_tree.ocurrences("zebra"), [])
+        self.assertEqual(suffix_tree.number_of_ocurrences("zebra"), 0)

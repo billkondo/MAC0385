@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from suffix_array import build_lcp_array_linear, build_suffix_array_linear
 
@@ -112,6 +112,30 @@ class SuffixTree:
         node.children = children
 
     def search(self, pattern: str) -> bool:
+        _, pattern_fully_matched = self._find_last_node_that_matches_pattern(pattern)
+
+        return pattern_fully_matched
+
+    def ocurrences(self, pattern: str) -> List[int]:
+        node, pattern_fully_matched = self._find_last_node_that_matches_pattern(pattern)
+
+        if not pattern_fully_matched:
+            return []
+
+        leaves: List[int] = []
+        self._find_node_leaves(node, leaves)
+
+        return leaves
+
+    def number_of_ocurrences(self, pattern: str) -> int:
+        node, pattern_fully_matched = self._find_last_node_that_matches_pattern(pattern)
+
+        if not pattern_fully_matched:
+            return 0
+
+        return node.num_leaves
+
+    def _find_last_node_that_matches_pattern(self, pattern: str) -> Tuple[SuffixTreeNode, bool]:
         node = self.root
         index = 0
 
@@ -141,5 +165,16 @@ class SuffixTree:
             if not pattern_fully_matched_suffix_link:
                 break
 
-        pattern_fully_matched_any_substring = index == len(pattern)
-        return pattern_fully_matched_any_substring
+        pattern_fully_matched = index == len(pattern)
+        return node, pattern_fully_matched
+
+    def _find_node_leaves(self, node: SuffixTreeNode, leaves: List[int]):
+        if not node:
+            return
+
+        if node.is_leaf():
+            leaves.append(node.suffix_index)
+            return
+
+        for child in node.children:
+            self._find_node_leaves(child, leaves)
