@@ -1,6 +1,7 @@
 import unittest
 from typing import List
 
+from parameterized import parameterized
 from suffix_tree import SuffixTree, SuffixTreeNode
 
 
@@ -51,3 +52,21 @@ class TestSuffixTree(unittest.TestCase):
         self._assert_node_data(self._find_node_by_following_suffix_links(suffix_tree, "r"), 2, -1, 2, 3, 2)
         self._assert_node_data(self._find_node_by_following_suffix_links(suffix_tree, "r", "$"), -1, 9, 11, 11, 1)
         self._assert_node_data(self._find_node_by_following_suffix_links(suffix_tree, "r", "c"), -1, 2, 4, 11, 1)
+
+    @parameterized.expand(
+        [
+            ("abra"),
+            ("ra"),
+            ("a"),
+            ("d"),
+        ]
+    )
+    def test_suffix_tree_search(self, pattern: str):
+        suffix_tree = SuffixTree("abracadabra")
+
+        self.assertTrue(suffix_tree.search(pattern))
+
+    def test_suffix_tree_not_found(self):
+        suffix_tree = SuffixTree("abracadabra")
+
+        self.assertFalse(suffix_tree.search("zebra"))

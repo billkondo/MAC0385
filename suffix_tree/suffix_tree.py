@@ -110,3 +110,36 @@ class SuffixTree:
             children[self.alphabet[letter]] = child
 
         node.children = children
+
+    def search(self, pattern: str) -> bool:
+        node = self.root
+        index = 0
+
+        while node and index < len(pattern):
+            next_edge = self.alphabet.get(pattern[index], -1)
+            letter_exists_in_alphabet = next_edge != -1
+
+            if not letter_exists_in_alphabet or not node.children[next_edge]:
+                break
+
+            node = node.children[next_edge]
+
+            def try_match_pattern_with_suffix_link() -> bool:
+                nonlocal index
+
+                i = node.start
+                while i <= node.end and index < len(pattern):
+                    if pattern[index] == self._text[i]:
+                        i += 1
+                        index += 1
+                    else:
+                        break
+
+                return i > node.end
+
+            pattern_fully_matched_suffix_link = try_match_pattern_with_suffix_link()
+            if not pattern_fully_matched_suffix_link:
+                break
+
+        pattern_fully_matched_any_substring = index == len(pattern)
+        return pattern_fully_matched_any_substring
