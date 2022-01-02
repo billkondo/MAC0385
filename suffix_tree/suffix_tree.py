@@ -178,3 +178,19 @@ class SuffixTree:
 
         for child in node.children:
             self._find_node_leaves(child, leaves)
+
+    def print(self) -> List[str]:
+        nodes: List[str] = []
+        self._pre_order_traversal(self.root, nodes)
+
+        return nodes
+
+    def _pre_order_traversal(self, node: SuffixTreeNode, nodes: List[SuffixTreeNode]):
+        if not node:
+            return
+
+        if node is not self.root:
+            nodes.append(f"[{node.start}, {node.end}]")
+
+        for child in node.children:
+            self._pre_order_traversal(child, nodes)

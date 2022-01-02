@@ -75,3 +75,28 @@ class TestSuffixTree(unittest.TestCase):
         self.assertFalse(suffix_tree.search("zebra"))
         self.assertEqual(suffix_tree.ocurrences("zebra"), [])
         self.assertEqual(suffix_tree.number_of_ocurrences("zebra"), 0)
+
+    def test_suffix_tree_print(self):
+        suffix_tree = SuffixTree("abracadabra")
+
+        self.assertEqual(
+            suffix_tree.print(),
+            [
+                "[11, 11]",
+                "[0, 0]",
+                "[11, 11]",
+                "[1, 3]",
+                "[11, 11]",
+                "[4, 11]",
+                "[4, 11]",
+                "[6, 11]",
+                "[1, 3]",
+                "[11, 11]",
+                "[4, 11]",
+                "[4, 11]",
+                "[6, 11]",
+                "[2, 3]",
+                "[11, 11]",
+                "[4, 11]",
+            ],
+        )
